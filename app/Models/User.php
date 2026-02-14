@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    
+
     protected $primaryKey = 'user_id';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -34,6 +36,7 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'password' => 'hashed',           // ← This tells Laravel: always hash the password!
         'email_verified_at' => 'datetime',
     ];
 
