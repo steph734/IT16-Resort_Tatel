@@ -1,0 +1,268 @@
+/* Calendar specific CSS */
+.calendar-section {
+    background-color: white;
+    border-radius: 0.375rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+    width: 1350px;
+    height: 600px;
+    overflow: hidden;
+    border: 1px solid #d1d5db;
+}
+
+/* Date Popup Styles */
+.date-popup {
+    position: absolute;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Hide the default checkbox */
+.toggle-checkbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+/* Toggle switch appearance */
+.toggle-switch {
+    cursor: pointer;
+    width: 36px;
+    height: 18px;
+    background: #ccc;
+    display: block;
+    border-radius: 18px;
+    position: relative;
+}
+
+/* Toggle switch handle */
+.toggle-switch:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+/* Toggle switch when active */
+.toggle-checkbox:checked+.toggle-switch {
+    background: #ef4444;
+}
+
+.toggle-checkbox:checked+.toggle-switch:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+}
+
+.calendar-grid-container {
+    padding: 0.5rem;
+    margin-top: 1rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #4b5563;
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.35rem;
+}
+
+.legend-dot.available {
+    background-color: #f8d48f;
+    border: none;
+}
+
+.legend-dot.booked {
+    background-color: #10b981;
+    box-shadow: none;
+}
+
+.legend-dot.holiday {
+    background-color: #ef4444;
+    box-shadow: none;
+}
+
+.month-year {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.calendar-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #29494D;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 16px 4px;
+    /* row-gap column-gap - reduced horizontal gap to 4px */
+    text-align: center;
+    padding: 1.5rem 1rem;
+    justify-items: center;
+    align-items: center;
+    max-width: 100%;
+}
+
+.calendar-weekday {
+    font-weight: 600;
+    color: #000;
+    padding: 0.35rem;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.calendar-date {
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 600;
+    color: #4b5563;
+    position: relative;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    margin: 2px;
+    background-color: white;
+}
+
+.calendar-date:hover:not(.past-date) {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-date.active {
+    border: 2px solid #0ea5e9;
+    font-weight: 700;
+    box-shadow: 0 0 0 2px #0ea5e9;
+    background-color: #0ea5e9 !important;
+    color: white !important;
+}
+
+.calendar-date.available {
+    background-color: #f8d48f;
+    color: #29494D;
+}
+
+.calendar-date.booked {
+    background-color: #f8d48f;
+    color: #29494D;
+}
+
+.calendar-date.holiday {
+    background-color: #f8d48f;
+    color: #9ca3af;
+    /* Grey font color for closed dates */
+}
+
+.calendar-date.past-date {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Style for indicators - small dots under the date */
+.calendar-date .indicator-dot {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    z-index: 2;
+    /* Ensure dot is visible above the background */
+}
+
+.indicator-dot.booked {
+    background-color: #10b981;
+}
+
+.indicator-dot.holiday {
+    background-color: #ef4444;
+}
+
+/* Add a highlight effect for today's date */
+.calendar-date.today {
+    border: 2px solid #0ea5e9 !important;
+    color: #29494D !important;
+    font-weight: bold;
+}
+
+.today-marker {
+    background-color: #0ea5e9 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.calendar-date.other-month {
+    color: #9ca3af;
+}

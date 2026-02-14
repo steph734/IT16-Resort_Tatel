@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sales API Test</h1>
+    
+    <div>
+        <button onclick="testDashboardAPI()">Test Dashboard API</button>
+        <button onclick="testTransactionsAPI()">Test Transactions API</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script>
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        async function testDashboardAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Testing Dashboard API...</h2>';
+            
+            try {
+                const response = await fetch('/admin/sales/api/dashboard-data?preset=month');
+                resultsDiv.innerHTML += `<p class="success">Status: ${response.status} ${response.statusText}</p>`;
+                
+                const contentType = response.headers.get('content-type');
+                resultsDiv.innerHTML += `<p>Content-Type: ${contentType}</p>`;
+                
+                const text = await response.text();
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = JSON.parse(text);
+                    resultsDiv.innerHTML += '<h3>Response Data:</h3>';
+                    resultsDiv.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                    // Check specific values
+                    resultsDiv.innerHTML += '<h3>Data Analysis:</h3>';
+                    resultsDiv.innerHTML += `<p>Booking Sales: ₱${data.kpis?.booking_sales || 'N/A'}</p>`;
+                    resultsDiv.innerHTML += `<p>Rental Sales: ₱${data.kpis?.rental_sales || 'N/A'}</p>`;
+                    resultsDiv.innerHTML += `<p>Revenue Trend Points: ${data.revenue_trend?.length || 0}</p>`;
+                    resultsDiv.innerHTML += `<p>Top Packages: ${data.top_packages?.length || 0}</p>`;
+                    resultsDiv.innerHTML += `<p>Top Rentals: ${data.top_rentals?.length || 0}</p>`;
+                } else {
+                    resultsDiv.innerHTML += '<h3 class="error">Response is not JSON!</h3>';
+                    resultsDiv.innerHTML += '<p>First 500 characters:</p>';
+                    resultsDiv.innerHTML += '<pre>' + text.substring(0, 500) + '</pre>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p class="error">Error: ${error.message}</p>`;
+                resultsDiv.innerHTML += `<pre>${error.stack}</pre>`;
+            }
+        }
+        
+        async function testTransactionsAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Testing Transactions API...</h2>';
+            
+            try {
+                const response = await fetch('/admin/sales/api/transactions');
+                resultsDiv.innerHTML += `<p class="success">Status: ${response.status} ${response.statusText}</p>`;
+                
+                const contentType = response.headers.get('content-type');
+                resultsDiv.innerHTML += `<p>Content-Type: ${contentType}</p>`;
+                
+                const text = await response.text();
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = JSON.parse(text);
+                    resultsDiv.innerHTML += '<h3>Response Data:</h3>';
+                    resultsDiv.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                    // Check specific values
+                    resultsDiv.innerHTML += '<h3>Data Analysis:</h3>';
+                    resultsDiv.innerHTML += `<p>Total Transactions: ${data.summary?.total_transactions || 0}</p>`;
+                    resultsDiv.innerHTML += `<p>Total Amount: ₱${data.summary?.total_amount || 'N/A'}</p>`;
+                    resultsDiv.innerHTML += `<p>Transactions in response: ${data.transactions?.length || 0}</p>`;
+                } else {
+                    resultsDiv.innerHTML += '<h3 class="error">Response is not JSON!</h3>';
+                    resultsDiv.innerHTML += '<p>First 500 characters:</p>';
+                    resultsDiv.innerHTML += '<pre>' + text.substring(0, 500) + '</pre>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p class="error">Error: ${error.message}</p>`;
+                resultsDiv.innerHTML += `<pre>${error.stack}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>

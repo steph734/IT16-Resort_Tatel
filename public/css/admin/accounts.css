@@ -1,0 +1,224 @@
+/* Accounts Page Styles */
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: -25px;
+}
+
+.section-subtitle {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* Add Account Button */
+.btn-add-account {
+    background-color: #284B53;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    margin-top: -25px;
+}
+
+.btn-add-account:hover {
+    background-color: #1e3a41;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-add-account i {
+    font-size: 1rem;
+}
+
+/* Accounts Table */
+.accounts-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.accounts-table thead {
+    background-color: #f9fafb;
+}
+
+.accounts-table th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.accounts-table td {
+    padding: 1rem;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.accounts-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.accounts-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* User Name Styling */
+.user-name {
+    font-weight: 500;
+    color: #1f2937;
+}
+
+/* Status Badge */
+.accounts-table td span[class^="status-"] {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-active {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-disabled {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Account Actions */
+.account-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Edit Account Button */
+.btn-edit-account {
+    background-color: #284B53;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-account:hover {
+    background-color: #1e3a41;
+}
+
+.btn-edit-account i {
+    font-size: 0.875rem;
+}
+
+/* Status Toggle Button (Activate/Disable) */
+.btn-status-toggle {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 110px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-status-toggle i {
+    font-size: 0.875rem;
+}
+
+.btn-status-toggle.btn-active {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.btn-status-toggle.btn-active:hover {
+    background-color: #fecaca;
+}
+
+.btn-status-toggle.btn-disabled {
+    background-color: #d1fae5;
+    color: #10b981;
+    border: 1px solid #a7f3d0;
+}
+
+.btn-status-toggle.btn-disabled:hover {
+    background-color: #a7f3d0;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #9ca3af;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Form Row with 4 columns for Add/Edit Account Modal */
+.form-row-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive adjustments for form rows */
+@media (max-width: 1024px) {
+    .form-row-4 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .form-row-4 {
+        grid-template-columns: 1fr;
+    }
+}

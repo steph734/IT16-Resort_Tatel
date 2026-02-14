@@ -1,0 +1,1244 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem 3rem;
+    max-width: 1400px;
+    margin-left: -40px;
+}
+
+.page-header {
+    margin-top: -15px;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Guest Information Section */
+.guest-info-section {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.guest-form-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    align-items: flex-end;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #29494D;
+    box-shadow: 0 0 0 3px rgba(41, 73, 77, 0.1);
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+/* Status Buttons */
+.status-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.status-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    background-color: #ffffff00;
+    /* transparent base to allow filled styles below */
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Filled variants for semantic buttons */
+.status-btn.checkin-btn {
+    background-color: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+}
+
+.status-btn.checkout-btn {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+}
+
+.status-btn.noshow-btn {
+    background-color: #6b7280;
+    color: #ffffff;
+    border-color: #6b7280;
+}
+
+/* Hover states - slightly darker and lift */
+.status-btn.checkin-btn:hover:not(:disabled) {
+    background-color: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(5, 150, 105, 0.12);
+}
+
+.status-btn.checkout-btn:hover:not(:disabled) {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.12);
+}
+
+.status-btn.noshow-btn:hover:not(:disabled) {
+    background-color: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(75, 85, 99, 0.08);
+}
+
+/* Disabled state: clearer 'not clickable' indicator per variant */
+.status-btn:disabled {
+    /* keep color visible but desaturated and slightly dimmed */
+    opacity: 1;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    filter: saturate(0.5) brightness(0.92) contrast(0.95) grayscale(0.18);
+}
+
+/* Per-variant disabled backgrounds for clearer signal */
+.status-btn.checkin-btn:disabled {
+    background-color: #6ee7b7;
+    /* softer green */
+    border-color: #6ee7b7;
+    color: #0b422e;
+    /* darker muted text */
+}
+
+.status-btn.checkout-btn:disabled {
+    background-color: #93c5fd;
+    /* softer blue */
+    border-color: #93c5fd;
+    color: #0b2f4a;
+}
+
+.status-btn.noshow-btn:disabled {
+    background-color: #9ca3af;
+    /* muted grey */
+    border-color: #9ca3af;
+    color: #f3f4f6;
+}
+
+/* Ensure disabled buttons don't respond to hover transforms */
+.status-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Active state - slightly darker */
+.status-btn.active.checkin-btn {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+.status-btn.active.checkout-btn {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.status-btn.active.noshow-btn {
+    background-color: #4b5563;
+    border-color: #4b5563;
+}
+
+.status-btn i {
+    font-size: 1rem;
+}
+
+/* Content Layout */
+.content-layout {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    height: 700px;
+}
+
+.left-column {
+    flex: 1;
+    max-width: 42%;
+}
+
+.right-column {
+    flex: 1.4;
+}
+
+/* Booking Details Section */
+.booking-details-section {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e5e7eb;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.booking-details-placeholder {
+    color: #6b7280;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.booking-details-placeholder i {
+    font-size: 3rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.booking-details-subtext {
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+
+/* Booking Information Display - matching bookings.blade.php */
+.booking-info-details {
+    text-align: left;
+    width: 100%;
+}
+
+.info-section {
+    margin-bottom: 1.5rem;
+}
+
+.info-section:last-child {
+    margin-bottom: 0;
+}
+
+.info-section-title {
+    color: #1f2937;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.booking-details,
+.guest-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #1f2937;
+    font-size: 0.875rem;
+    text-align: right;
+}
+
+.detail-value.highlight {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.guest-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.contact-item i {
+    width: 1.25rem;
+    color: #9ca3af;
+}
+
+/* Remaining Balance Section */
+.balance-section {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e5e7eb;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Balance Header Buttons */
+.balance-header-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.balance-action-btn {
+    padding: 0.875rem 1.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-width: 160px;
+}
+
+.balance-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.add-item-btn {
+    background-color: #10b981;
+    color: white;
+}
+
+.add-item-btn:hover:not(:disabled) {
+    background-color: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.return-rentals-btn {
+    background-color: #a78bfa !important;
+    color: white;
+}
+
+.return-rentals-btn:hover:not(:disabled) {
+    background-color: #9370db !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(167, 139, 250, 0.3);
+}
+
+.bill-out-btn {
+    background-color: #29494D;
+    color: white;
+}
+
+.bill-out-btn:hover:not(:disabled) {
+    background-color: #1e3a3e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(41, 73, 77, 0.3);
+}
+
+/* Balance placeholder styling to match booking details */
+.balance-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.balance-placeholder i {
+    font-size: 3rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.balance-placeholder h3 {
+    color: #6b7280;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+#balance-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.balance-details-subtext {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.balance-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.balance-items {
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.balance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 1rem;
+}
+
+.balance-item:last-child {
+    border-bottom: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #1f2937;
+}
+
+.balance-label {
+    color: #374151;
+}
+
+.balance-amount {
+    color: #1f2937;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .content-layout {
+        flex-direction: column;
+    }
+
+    .guest-form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1.5rem;
+    }
+
+    .guest-info-section,
+    .booking-details-section,
+    .balance-section {
+        padding: 1.5rem;
+    }
+
+    .status-buttons {
+        flex-direction: column;
+    }
+}
+
+/* Loading and Empty States */
+.loading-state,
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+}
+
+.loading-state i,
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.loading-state h3,
+.empty-state h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.loading-state p,
+.empty-state p {
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* Balance placeholder */
+.balance-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Table row hover effect */
+tbody tr {
+    transition: all 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-input,
+.status-btn,
+.bill-out-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* Currently Staying Table Styles */
+.currently-staying-table-wrapper {
+    overflow-x: auto;
+}
+
+.currently-staying-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.currently-staying-table thead tr {
+    background-color: #f9fafb;
+}
+
+.currently-staying-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.currently-staying-table tbody tr {
+    background-color: white;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+}
+
+.currently-staying-table td {
+    padding: 1rem;
+    color: #374151;
+}
+
+.currently-staying-table td.booking-id {
+    font-weight: 500;
+}
+
+.currently-staying-table .date-main {
+    font-weight: 500;
+}
+
+.currently-staying-table .date-time {
+    font-size: 0.75rem;
+    color: inherit;
+}
+
+/* Status Badge Styles */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    /* Small padding for readability */
+    border-radius: 9999px;
+    /* Optional: keep pill shape without fill */
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: transparent !important;
+    /* No background */
+}
+
+/* Booked - Orange text only */
+.status-badge.status-booked,
+.status-badge.status-confirmed {
+    color: #d97706;
+    /* Amber/orange text */
+    font-weight: 600;
+}
+
+/* Remove any ::before pseudo-element (the orange circle/dot) */
+.status-badge.status-booked::before,
+.status-badge.status-confirmed::before,
+.status-badge::before {
+    display: none !important;
+}
+
+/* Staying - Green text only */
+.status-badge.status-staying {
+    color: #166534;
+    font-weight: 600;
+}
+
+/* Remove checkmark or any icon if using ::before */
+.status-badge.status-staying::before {
+    display: none !important;
+}
+
+/* Completed */
+.status-badge.status-completed {
+    color: #4b5563;
+    font-weight: 600;
+}
+
+/* Cancelled */
+.status-badge.status-cancelled {
+    color: #991b1b;
+    font-weight: 600;
+}
+
+.status-badge i {
+    margin-right: 0.25rem;
+}
+
+/* Payment Badge Styles */
+.payment-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.payment-badge.payment-downpayment {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.payment-badge.payment-partial {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.payment-badge.payment-fully-paid {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.payment-badge.payment-pending {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+.payment-badge.payment-completed {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.new-booking-modal {
+    background-color: white;
+    border-radius: 0.75rem;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .new-booking-modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    background-color: #29494D;
+    color: white;
+    padding: 1.5rem;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s ease;
+}
+
+.modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.form-section {
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #29494D;
+    box-shadow: 0 0 0 3px rgba(41, 73, 77, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+.btn-primary {
+    background-color: #29494D;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1e3438;
+}
+
+/* Financial summary panel (matches payment history width) */
+.financial-summary-panel {
+    width: 100%;
+    max-width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.financial-summary-panel .section {
+    padding: 20px;
+}
+
+.financial-summary-panel .section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 12px;
+}
+
+.payment-history {
+    width: 100%;
+}
+
+/* Highlight styles for amounts */
+.highlight-yellow {
+    font-weight: 700;
+    display: inline-block;
+}
+
+.highlight-red {
+    font-weight: 700;
+    display: inline-block;
+}
+
+.highlight-green {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+/* Table styles inside financial panel to match payment history */
+.financial-summary-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    /* Make table columns stable and allow long text to wrap so the panel never overflows horizontally */
+    table-layout: fixed;
+}
+
+.financial-summary-panel th,
+.financial-summary-panel td {
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+    /* allow long cell contents (like long reference strings) to wrap rather than forcing horizontal scroll */
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+/* In case a very long unbreakable string is present, keep the panel from showing a horizontal scrollbar */
+.financial-summary-panel {
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* ========== INLINE STYLES MOVED FROM BLADE ========== */
+
+/* Rental Charges Section */
+.rental-charges-container {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 2px dashed #d1d5db;
+}
+
+.rental-charges-title {
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 12px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rental-charges-title i {
+    color: #8b5cf6;
+}
+
+.rental-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.rental-table thead tr {
+    background-color: #f9fafb;
+}
+
+.rental-table th,
+.rental-table td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.rental-table th {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.rental-table-center {
+    text-align: center;
+}
+
+.rental-table-right {
+    text-align: right;
+}
+
+.rental-charge {
+    color: #7c3aed;
+    font-weight: 700;
+}
+
+.rental-status-issued {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.rental-status-returned {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.rental-status-damaged {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.rental-status-lost {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.rental-status-unknown {
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.rental-row-fee {
+    background: #fff8f0;
+}
+
+.rental-row-fee td {
+    padding: 8px 12px;
+}
+
+.rental-row-fee-label {
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.rental-row-fee-amount {
+    text-align: right;
+    color: #1f2937;
+    font-weight: 700;
+    padding: 8px 12px;
+}
+
+/* Rental Fee Row Styles - for subtitle fee display below damaged/lost items */
+.rental-fee-row {
+    background-color: #fef2f2;
+}
+
+.rental-fee-label {
+    text-align: right;
+    color: black;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding-right: 0.5rem;
+}
+
+.rental-fee-amount {
+    color: black;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-align: right;
+}
+
+.rental-charges-amount {
+    text-align: right;
+    font-weight: 700;
+}
+
+.rental-table tfoot tr {
+    border-top: 2px solid #e5e7eb;
+}
+
+.rental-table tfoot td {
+    padding-top: 12px;
+    font-weight: 600;
+}
+
+.rental-table tfoot .subtotal-label {
+    text-align: right;
+}
+
+.rental-table tfoot .subtotal-amount {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* Outstanding Charges Section */
+.outstanding-container {
+    margin-top: 15px;
+}
+
+.outstanding-label {
+    font-weight: 700;
+    color: #374151;
+}
+
+.outstanding-amount {
+    color: #dc2626;
+    font-weight: 800;
+}
+
+/* Payment History Section */
+.payment-history-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.payment-history-title i {
+    color: #10b981;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.payment-table thead {
+    background-color: #f9fafb;
+}
+
+.payment-table thead tr {
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.payment-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.payment-table td {
+    padding: 12px;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.payment-table-amount {
+    font-weight: 600;
+    color: #10b981;
+}
+
+.payment-table-muted {
+    color: #6b7280;
+}
+
+/* Outstanding Charges Title */
+.outstanding-charges-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.outstanding-charges-title i {
+    color: #10b981;
+}
+
+/* Balance Row Styles */
+.balance-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.balance-row-label {
+    color: #374151;
+}
+
+.balance-row-amount {
+    font-weight: 700;
+}
+
+/* Unpaid Items Section */
+.unpaid-items-container {
+    margin-top: 8px;
+}
+
+.unpaid-items-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.unpaid-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.unpaid-items-table thead tr {
+    background-color: #f9fafb;
+}
+
+.unpaid-items-table th,
+.unpaid-items-table td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.unpaid-items-table th {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.unpaid-items-amount {
+    color: #10b981;
+    font-weight: 700;
+}
+
+.unpaid-items-subtotal {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Rentals Subtotal Highlight */
+.rentals-subtotal-highlight {
+    background: #f3e8ff;
+    color: #7c3aed;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+/* No Outstanding Balance Message */
+.no-outstanding-message {
+    text-align: center;
+    color: #10b981;
+    font-weight: 600;
+}

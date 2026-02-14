@@ -1,0 +1,531 @@
+/* Bill Out Page Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Main Layout */
+#content {
+    padding: 2rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-back {
+    color: #29494D;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.btn-back:hover {
+    background-color: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: 10px;
+}
+
+/* Outstanding Banner - Full Width Above Content */
+.outstanding-banner {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 0.5rem;
+    padding: 1rem 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.outstanding-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #92400e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.outstanding-label i {
+    font-size: 1rem;
+}
+
+.outstanding-amount {
+    font-size: 1.575rem;
+    font-weight: 800;
+    color: #92400e;
+    margin-bottom: 0;
+}
+
+.outstanding-note {
+    font-size: 0.75rem;
+    color: #78350f;
+    margin: 0;
+    margin-top: 0.25rem;
+}
+
+/* Bill Out Container - Two Columns */
+.bill-out-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+/* Left Column - Discount Section */
+.discount-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Senior Citizen Discount Card */
+.senior-discount-card {
+    background: white;
+    border-radius: 0.5rem;
+    border: 2px solid #a78bfa;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.senior-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+    border-bottom: 1px solid #c4b5fd;
+}
+
+.senior-header i {
+    color: #7c3aed;
+    font-size: 1.25rem;
+}
+
+.senior-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #5b21b6;
+    margin: 0;
+}
+
+.senior-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.senior-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #faf5ff;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+}
+
+.senior-info-row .label {
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.senior-info-row .value {
+    font-weight: 500;
+    color: black;
+    font-size: 1rem;
+}
+
+.discount-toggle {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fef3c7;
+    border-radius: 0.375rem;
+    border: 1px solid #fde68a;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.discount-summary {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #dcfce7;
+    border-radius: 0.375rem;
+    border: 1px solid #86efac;
+}
+
+.discount-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #166534;
+    font-size: 0.875rem;
+}
+
+.discount-amount {
+    font-size: 1rem;
+}
+
+/* No Discount Card */
+.no-discount-card {
+    background: white;
+    border-radius: 0.5rem;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.no-discount-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.no-discount-header i {
+    color: #6b7280;
+    font-size: 1.25rem;
+}
+
+.no-discount-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+.no-discount-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.no-discount-body p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+/* Right Column - Payment Section */
+.payment-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Payment Info Card */
+.payment-info-card {
+    background: white;
+    border-radius: 0.5rem;
+    border: 2px solid #86efac;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.payment-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-bottom: 1px solid #86efac;
+}
+
+.payment-header i {
+    color: #059669;
+    font-size: 1.25rem;
+}
+
+.payment-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #065f46;
+    margin: 0;
+}
+
+.payment-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.required {
+    color: #dc2626;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #29494D;
+    box-shadow: 0 0 0 3px rgba(41, 73, 77, 0.1);
+}
+
+.form-input:disabled,
+.form-input[readonly] {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+    color: #6b7280;
+}
+
+.help-text {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 80px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Submit Button */
+.btn-submit {
+    width: 100%;
+    margin-top: auto;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Poppins', sans-serif;
+    background-color: #29494D;
+    color: white;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #1e3a3e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(41, 73, 77, 0.2);
+}
+
+/* Payment History Section - Full Width */
+.payment-history-section {
+    margin-top: 2rem;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.payment-history-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.payment-history-header i {
+    color: #6b7280;
+    font-size: 1.25rem;
+}
+
+.payment-history-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+.payment-history-table {
+    overflow-x: auto;
+}
+
+.payment-history-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-history-table thead {
+    background-color: #f9fafb;
+}
+
+.payment-history-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.payment-history-table td {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.payment-history-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.payment-history-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.payment-history-table td.amount {
+    font-weight: 600;
+    color: #059669;
+}
+
+.payment-history-table td.muted {
+    color: #6b7280;
+    font-size: 0.8125rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.status-completed,
+.status-badge.status-paid {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.status-failed {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .bill-out-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    #content {
+        padding: 1.5rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .outstanding-amount {
+        font-size: 1.5rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .payment-history-table {
+        font-size: 0.8125rem;
+    }
+}

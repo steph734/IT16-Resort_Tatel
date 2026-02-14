@@ -1,0 +1,190 @@
+/**
+ * SweetAlert2 Custom Styles
+ * Project Color Scheme: Primary #284B53, Accent #53A9B5
+ */
+
+/* Custom popup styling */
+.swal-custom-popup {
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Title styling */
+.swal2-title {
+    color: #284B53 !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+/* Content text styling */
+.swal2-html-container {
+    color: #4b5563;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Confirm button custom styling */
+.swal-custom-confirm {
+    background-color: #284B53 !important;
+    border-color: #284B53 !important;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.swal-custom-confirm:hover {
+    background-color: #1f3a40 !important;
+    border-color: #1f3a40 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(40, 75, 83, 0.3);
+}
+
+.swal-custom-confirm:focus {
+    box-shadow: 0 0 0 3px rgba(83, 169, 181, 0.3) !important;
+}
+
+/* Cancel button custom styling */
+.swal-custom-cancel {
+    background-color: #6b7280 !important;
+    border-color: #6b7280 !important;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.swal-custom-cancel:hover {
+    background-color: #4b5563 !important;
+    border-color: #4b5563 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(107, 114, 128, 0.3);
+}
+
+.swal-custom-cancel:focus {
+    box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.3) !important;
+}
+
+/* Icon colors - keep standard for recognition */
+.swal2-icon.swal2-success {
+    border-color: #22c55e !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #22c55e !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #dc2626 !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #dc2626 !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #f59e0b !important;
+    color: #f59e0b !important;
+}
+
+.swal2-icon.swal2-info {
+    border-color: #53A9B5 !important;
+    color: #53A9B5 !important;
+}
+
+/* Timer progress bar */
+.swal2-timer-progress-bar {
+    background-color: #53A9B5 !important;
+}
+
+/* Footer links */
+.swal2-footer a {
+    color: #284B53;
+    text-decoration: underline;
+    font-family: 'Poppins', sans-serif;
+}
+
+.swal2-footer a:hover {
+    color: #53A9B5;
+}
+
+/* Loading spinner color */
+.swal2-loader {
+    border-color: #284B53 transparent #284B53 transparent !important;
+}
+
+/* Input fields in SweetAlert */
+.swal2-input,
+.swal2-textarea {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    padding: 10px 15px;
+}
+
+.swal2-input:focus,
+.swal2-textarea:focus {
+    border-color: #53A9B5;
+    box-shadow: 0 0 0 3px rgba(83, 169, 181, 0.1);
+}
+
+/* Validation error message */
+.swal2-validation-message {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Close button */
+.swal2-close {
+    color: #6b7280;
+    font-size: 28px;
+}
+
+.swal2-close:hover {
+    color: #284B53;
+}
+
+/* Actions container spacing */
+.swal2-actions {
+    gap: 12px;
+}
+
+/* Ensure SweetAlert appears above modals */
+.swal2-container {
+    z-index: 100000 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .swal2-popup {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .swal2-title {
+        font-size: 20px;
+    }
+    
+    .swal2-html-container {
+        font-size: 14px;
+    }
+    
+    .swal-custom-confirm,
+    .swal-custom-cancel {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}

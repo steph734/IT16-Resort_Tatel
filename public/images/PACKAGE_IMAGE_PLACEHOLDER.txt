@@ -1,0 +1,15 @@
+PACKAGE IMAGE PLACEHOLDER
+
+Please replace package-placeholder.jpg with your actual package images.
+
+Recommended specifications:
+- Resolution: 1200x800 pixels (3:2 aspect ratio)
+- Format: JPG or PNG
+- File size: Under 500KB for optimal loading
+- Quality: High resolution for retina displays
+
+You can also update the landing.blade.php file to use different images for each package by:
+1. Naming your images: package-a.jpg, package-b.jpg, etc.
+2. Updating the image src to: {{ asset('images/package-' . strtolower(str_replace(' ', '-', $package->Name)) . '.jpg') }}
+
+Current placeholder path: public/images/package-placeholder.jpg

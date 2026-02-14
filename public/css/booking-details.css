@@ -1,0 +1,755 @@
+/* Booking Details Form Styles */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+.booking-form-container {
+    background: white;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.booking-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #284B53;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.breadcrumb-nav {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-current {
+    color: #284B53;
+    font-weight: 600;
+}
+
+/* Progress Bar Styles */
+.progress-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-indicator {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-indicator.completed {
+    background-color: #284B53;
+    color: white;
+}
+
+.step-indicator.active {
+    background-color: #EBC595;
+    color: #284B53;
+}
+
+.step-indicator.inactive {
+    background-color: white;
+    border: 2px solid #d1d5db;
+    color: #9ca3af;
+}
+
+.step-label {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #284B53;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.step-line {
+    width: 100px;
+    height: 2px;
+    background-color: #d1d5db;
+}
+
+.step-line.completed {
+    background-color: #EBC595;
+}
+
+.step-line.active {
+    background-color: #d4a574;
+}
+
+/* Form Card Styles */
+.form-card {
+    background: #DCEBED;
+    border-radius: 20px;
+    padding: 2.25rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-card {
+    /* make the booking summary visually distinct: white card with shadow */
+    background: #ffffff;
+    padding: 1.5rem 1.75rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.06);
+    border: 1px solid #e9eef0; /* subtle border like image */
+}
+
+/* Section Headers */
+.section-header {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #284B53;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Input Styles */
+.form-row {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row.two-cols {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form-row.three-cols {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.form-row.four-cols {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem;
+}
+
+.form-row.four-cols .form-label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.form-row.four-cols .form-input {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+}
+
+.form-row.one-col {
+    grid-template-columns: 1fr;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    color: #284B53;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #284B53;
+    box-shadow: 0 0 0 3px rgba(95, 158, 160, 0.1);
+}
+
+.form-input:read-only {
+    background-color: #f9fafb;
+    cursor: not-allowed;
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+/* Package Selection */
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.package-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.package-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.package-grid::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.package-grid::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.package-card {
+    background: white;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    gap: 1rem;
+}
+
+.package-card:hover {
+    border-color: #284B53;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.package-card.selected {
+    border-color: #10b981; /* green border when selected */
+    background-color: white; /* keep background white */
+    box-shadow: none; /* remove colored shadow */
+}
+
+.package-radio {
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: #284B53;
+    cursor: pointer;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.package-content {
+    flex: 1;
+}
+
+.package-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.package-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #284B53;
+}
+
+.package-price {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #284B53;
+}
+
+.package-max-guests {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.package-max-guests i {
+    margin-right: 0.25rem;
+}
+
+.package-amenities {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 0.75rem;
+    padding-right: 0.5rem;
+}
+
+.package-amenities::-webkit-scrollbar {
+    width: 6px;
+}
+
+.package-amenities::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.package-amenities::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.package-amenities::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.amenity-item i {
+    color: #10b981;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+.amenity-item span {
+    flex: 1;
+    color: #374151;
+}
+
+.no-amenities {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.package-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.package-note {
+    font-size: 0.75rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin-top: 0.75rem;
+}
+
+/* Info Box */
+.info-box {
+    /* pale yellow rounded box with a strong orange left accent (matches image) */
+    background: #fff6e6; /* soft yellow */
+    border: 1px solid rgba(245, 158, 11, 0.12);
+    border-radius: 8px;
+    padding: 0.875rem 1rem 0.875rem 0.75rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.info-box::before {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 7px;
+    background: #f59e0b; /* orange stripe */
+    border-radius: 4px;
+}
+
+.info-text {
+    font-size: 0.95rem;
+    color: #92400e;
+    margin-left: 1rem; /* keep text off the stripe */
+}
+
+/* Summary Section */
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.summary-column-left,
+.summary-column-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.summary-value {
+    padding: 0.75rem 1rem;
+    border: 1px solid #eef3f4;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #284B53;
+}
+
+.summary-value.highlight {
+    font-weight: 700;
+    color: #284B53;
+}
+
+.summary-value.success {
+    font-weight: 700;
+    color: #10b981;
+}
+
+/* Totals alignment: make the labels and values share the same horizontal inset */
+.summary-totals {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.total-row {
+    /* full-width boxed row (white) matching the image */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid #e6eef0;
+    border-radius: 8px;
+}
+
+.total-row .summary-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.total-row .summary-value {
+    text-align: right;
+    font-weight: 700;
+    color: #0f4c49; /* dark teal for amounts */
+}
+
+.reservation-fee {
+    /* pale yellow full-width box with orange border like the image */
+    background: #fff4d9;
+    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid #f59e0b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reservation-fee .summary-label {
+    color: #374151;
+    font-weight: 600;
+}
+
+.reservation-fee .summary-value {
+    color: #0f4c49; /* match total color */
+    font-weight: 700;
+}
+
+/* Navigation Buttons */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+
+.btn-previous {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-previous:hover {
+    color: #1f2937;
+}
+
+.btn-next {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    background-color: #284B53;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.btn-next:hover {
+    background-color: #1e3a41;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Policy Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: linear-gradient(to bottom, #f0f9ff, white);
+    border-radius: 12px;
+    max-width: 28rem;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    /* constrain modal to viewport height so it never overflows the page */
+    max-height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* keep header/footer visible and allow body to scroll */
+}
+
+.modal-header {
+    background: #dbeafe;
+    /* reduced vertical padding to make the header shorter */
+    padding: 1rem 1rem 0.75rem;
+    text-align: center;
+}
+
+.modal-logo {
+    /* smaller logo to reduce header height */
+    height: 3rem;
+    margin: 0 auto 0.5rem;
+}
+
+.modal-title {
+    font-family: 'Crimson Pro', serif;
+    /* slightly smaller title for a slimmer header */
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #284B53;
+}
+
+.modal-body {
+    padding: 1.5rem 2rem;
+    /* allow the modal body to grow/shrink inside the flex column modal and be scrollable */
+    flex: 1 1 auto;
+    min-height: 0; /* important for proper overflow in flex items */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modal-intro {
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.policy-point {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+}
+
+.policy-title {
+    font-weight: 600;
+    color: #284B53;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.policy-list {
+    font-size: 0.75rem;
+    color: #284B53;
+    line-height: 1.5;
+}
+
+.policy-list li {
+    margin-bottom: 0.25rem;
+}
+
+.agreement-box {
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.agreement-label {
+    display: flex;
+    align-items: start;
+    cursor: pointer;
+}
+
+.agreement-checkbox {
+    margin-top: 0.125rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    accent-color: #284B53;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.agreement-text {
+    margin-left: 0.75rem;
+    font-size: 0.875rem;
+    color: #1f2937;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.5rem;
+    /* keep the action buttons visible when modal body scrolls */
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.98));
+    /* reduced padding so footer is shorter */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.btn-modal-back {
+    flex: 1;
+    /* smaller vertical padding to reduce button height */
+    padding: 0.5rem 0.75rem;
+    color: #284B53;
+    font-weight: 500;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-modal-back:hover {
+    background: #f9fafb;
+    color: #1f2937;
+}
+
+.btn-modal-proceed {
+    flex: 1;
+    /* smaller vertical padding to match back button */
+    padding: 0.5rem 0.75rem;
+    background-color: #284B53;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.btn-modal-proceed:hover {
+    background-color: #0f766e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-modal-proceed:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-row.two-cols,
+    .form-row.three-cols,
+    .form-row.four-cols {
+        grid-template-columns: 1fr;
+    }
+
+    .package-grid,
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-title {
+        font-size: 2rem;
+    }
+
+    .progress-wrapper {
+        gap: 0.5rem;
+    }
+
+    .step-line {
+        width: 60px;
+    }
+
+    .step-indicator {
+        width: 48px;
+        height: 48px;
+    }
+
+    .step-label {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-label {
+        display: none;
+    }
+}

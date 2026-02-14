@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toggle Test</title>
+    <style>
+        body {
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .date-popup {
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            min-width: 150px;
+            margin: 20px 0;
+        }
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .toggle-label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+        .toggle-checkbox {
+            height: 0;
+            width: 0;
+            visibility: hidden;
+            position: absolute;
+        }
+        .toggle-switch {
+            cursor: pointer;
+            width: 36px;
+            height: 18px;
+            background: #ccc;
+            display: block;
+            border-radius: 18px;
+            position: relative;
+        }
+        .toggle-switch:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .toggle-checkbox:checked + .toggle-switch {
+            background: #ef4444;
+        }
+        .toggle-checkbox:checked + .toggle-switch:after {
+            left: calc(100% - 2px);
+            transform: translateX(-100%);
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f3f4f6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Toggle Switch Test</h1>
+    
+    <div class="date-popup">
+        <div class="toggle-container" id="toggleContainer">
+            <!-- Toggle will be inserted here by JavaScript -->
+        </div>
+    </div>
+    
+    <div class="status">
+        <strong>Status:</strong> <span id="status">Unchecked</span>
+    </div>
+    
+    <script>
+        const container = document.getElementById('toggleContainer');
+        const statusSpan = document.getElementById('status');
+        
+        // Create label
+        const label = document.createElement('label');
+        label.className = 'toggle-label';
+        label.textContent = 'Close date';
+        
+        // Create checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'toggle-checkbox';
+        checkbox.checked = false;
+        
+        // Create toggle switch
+        const toggleSwitch = document.createElement('div');
+        toggleSwitch.className = 'toggle-switch';
+        
+        // Create wrapper for checkbox and switch
+        const toggleWrapper = document.createElement('div');
+        toggleWrapper.style.display = 'flex';
+        toggleWrapper.style.alignItems = 'center';
+        toggleWrapper.style.gap = '8px';
+        
+        // Add change event to checkbox
+        checkbox.addEventListener('change', () => {
+            statusSpan.textContent = checkbox.checked ? 'CHECKED (Closed)' : 'UNCHECKED (Open)';
+            statusSpan.style.color = checkbox.checked ? '#ef4444' : '#10b981';
+        });
+        
+        // Make toggle switch clickable
+        toggleSwitch.addEventListener('click', () => {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+        });
+        
+        // Make label clickable
+        label.addEventListener('click', () => {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+        });
+        
+        // Assemble the toggle
+        toggleWrapper.appendChild(checkbox);
+        toggleWrapper.appendChild(toggleSwitch);
+        container.appendChild(label);
+        container.appendChild(toggleWrapper);
+    </script>
+</body>
+</html>

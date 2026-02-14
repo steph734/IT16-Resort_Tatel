@@ -1,0 +1,561 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-back {
+    color: #29494D;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-back:hover {
+    background-color: #4b5563;
+    transform: translateY(-1px);
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0.25rem 0 0 0;
+}
+
+/* Progress Steps */
+.progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    gap: 1rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.step-number {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background-color: #29494D;
+    color: white;
+}
+
+.step-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-label {
+    color: #29494D;
+    font-weight: 600;
+}
+
+.step-line {
+    width: 8rem;
+    height: 2px;
+    background-color: #e5e7eb;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Step Content */
+.step-content {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.step-panel {
+    display: none;
+}
+
+.step-panel.active {
+    display: block;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.form-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.form-grid-4 .form-label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.form-grid-4 .form-input {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-select {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #29494D;
+    box-shadow: 0 0 0 3px rgba(41, 73, 77, 0.1);
+}
+
+.readonly-input,
+.readonly-input-disabled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+/* Required Indicator */
+.required-indicator {
+    color: #dc2626;
+}
+
+/* Date Conflict Error */
+.date-conflict-error {
+    display: none;
+    background-color: #fee2e2;
+    border: 1px solid #dc2626;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    margin-top: 1rem;
+}
+
+.date-conflict-error.show {
+    display: block;
+}
+
+.date-conflict-error p {
+    color: #dc2626;
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Package Grid */
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.package-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+}
+
+.package-card:hover {
+    border-color: #29494D;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.package-card.selected {
+    border-color: #29494D;
+    background-color: #f0f9ff;
+    box-shadow: 0 4px 12px rgba(41, 73, 77, 0.15);
+}
+
+.package-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.package-title {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 1.125rem;
+}
+
+.package-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #29494D;
+}
+
+.package-max-guests {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.package-features {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.6;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.package-features::-webkit-scrollbar {
+    width: 4px;
+}
+
+.package-features::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.package-features::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.amenity-item-container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.amenity-check-icon {
+    color: #10b981;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.amenity-text {
+    flex: 1;
+}
+
+.no-amenities-text {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Booking Summary Info */
+.booking-summary-info {
+    background-color: #fef3c7;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #f59e0b;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #92400e;
+    font-size: 0.875rem;
+}
+
+.booking-summary-info i {
+    color: #f59e0b;
+    font-size: 1.25rem;
+}
+
+/* Summary Grid */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f9fafb;
+    border-radius: 0.375rem;
+    border: 1px solid #e5e7eb;
+}
+
+.summary-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.summary-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.summary-item.summary-total {
+    background-color: #dbeafe;
+    border-color: #3b82f6;
+    grid-column: span 2;
+}
+
+.summary-item.summary-total .summary-label,
+.summary-item.summary-total .summary-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e40af;
+}
+
+.summary-item.summary-downpayment {
+    background-color: #fef3c7;
+    border-color: #f59e0b;
+    grid-column: span 2;
+}
+
+.summary-item.summary-downpayment .summary-label,
+.summary-item.summary-downpayment .summary-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #92400e;
+}
+
+/* Payment Methods Grid */
+.payment-methods-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.payment-method-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.payment-method-card:hover {
+    border-color: #29494D;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method-card.selected {
+    border-color: #29494D;
+    background-color: #f0f9ff;
+    box-shadow: 0 4px 12px rgba(41, 73, 77, 0.15);
+}
+
+.payment-method-icon {
+    font-size: 3rem;
+    color: #29494D;
+    margin-bottom: 1rem;
+}
+
+.payment-method-title {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+}
+
+.payment-method-desc {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Payment Details Section */
+.payment-details-section {
+    display: none;
+}
+
+.account-details-row {
+    display: none;
+}
+
+.account-details-row.show {
+    display: grid;
+}
+
+/* Step Navigation */
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-secondary {
+    background-color: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.875rem 2rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #29494D;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.875rem 2rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #1e3a3e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(41, 73, 77, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .package-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .payment-methods-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1.5rem;
+    }
+    
+    .step-content {
+        padding: 1.5rem;
+    }
+    
+    .form-grid,
+    .form-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-steps {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .step-line {
+        width: 2px;
+        height: 2rem;
+        margin: 0;
+    }
+}

@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-resort-primary {
+    @apply bg-resort-accent text-black font-poppins font-bold px-6 py-3 rounded-resort shadow-md hover:bg-resort-accent/80 transition-colors;
+  }
+
+  .btn-resort-secondary {
+    @apply bg-white text-black font-poppins font-bold px-6 py-3 rounded-resort shadow-md border border-resort-accent hover:bg-gray-100 transition-colors;
+  }
+}

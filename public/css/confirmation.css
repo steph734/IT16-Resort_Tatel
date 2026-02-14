@@ -1,0 +1,217 @@
+/* Confirmation Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+.booking-form-container {
+    background: white;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.booking-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #284B53;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Progress Bar Styles */
+.progress-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-indicator {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-indicator.completed {
+    background-color: #284B53;
+    color: white;
+}
+
+.step-indicator.active {
+    background-color: #EBC595;
+    color: #284B53;
+}
+
+.step-indicator.inactive {
+    background-color: white;
+    border: 2px solid #d1d5db;
+    color: #9ca3af;
+}
+
+.step-label {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #284B53;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.step-line {
+    width: 100px;
+    height: 2px;
+    background-color: #d1d5db;
+}
+
+.step-line.completed {
+    background-color: #284B53;
+}
+
+.step-line.active {
+    background-color: #d4a574;
+}
+
+/* Confirmation Card */
+.confirmation-card {
+    background: #DCEBED;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.confirmation-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.confirmation-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #284B53;
+    margin-bottom: 1rem;
+}
+
+.confirmation-message {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #374151;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.confirmation-message strong {
+    color: #284B53;
+    font-weight: 600;
+}
+
+.booking-reference-box {
+    background: white;
+    border: 2px solid #284B53;
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.reference-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.reference-value {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #284B53;
+    letter-spacing: 0.05em;
+}
+
+.btn-home {
+    display: inline-block;
+    background-color: #284B53;
+    color: white;
+    padding: 0.875rem 2.5rem;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.btn-home:hover {
+    background-color: #4a6270;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .confirmation-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .booking-title {
+        font-size: 2rem;
+    }
+
+    .confirmation-title {
+        font-size: 1.5rem;
+    }
+
+    .progress-wrapper {
+        gap: 0.5rem;
+    }
+
+    .step-line {
+        width: 60px;
+    }
+
+    .step-indicator {
+        width: 48px;
+        height: 48px;
+    }
+
+    .step-label {
+        font-size: 0.65rem;
+    }
+
+    .confirmation-icon {
+        font-size: 3rem;
+    }
+
+    .reference-value {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-label {
+        display: none;
+    }
+
+    .confirmation-card {
+        padding: 1.5rem 1rem;
+    }
+}

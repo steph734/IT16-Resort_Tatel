@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Test</title>
+</head>
+<body>
+    <h1>Test Booking Creation</h1>
+    <button onclick="testBooking()">Test Create Booking</button>
+    <div id="result"></div>
+
+    <script>
+    async function testBooking() {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = 'Testing...';
+        
+        const bookingData = {
+            check_in_date: '2025-12-01',
+            check_out_date: '2025-12-02',
+            adults: 2,
+            children: 0,
+            package_id: 'PK001',
+            guest_fname: 'Test',
+            guest_lname: 'User',
+            guest_email: 'test@example.com',
+            guest_phone: '1234567890',
+            guest_address: 'Test Address',
+            payment_method: 'cash',
+            payment_purpose: 'downpayment',
+            amount_paid: 7500
+        };
+        
+        try {
+            const response = await fetch('/admin/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 'test'
+                },
+                body: JSON.stringify(bookingData)
+            });
+            
+            const result = await response.json();
+            resultDiv.innerHTML = `
+                <h3>Response (${response.status}):</h3>
+                <pre>${JSON.stringify(result, null, 2)}</pre>
+            `;
+        } catch (error) {
+            resultDiv.innerHTML = `<h3>Error:</h3><pre>${error.message}</pre>`;
+        }
+    }
+    </script>
+</body>
+</html>
