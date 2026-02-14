@@ -24,7 +24,7 @@
                     Login
                 </h2>
 
-                <form method="POST" action="{{ route('admin.login') }}" class="space-y-6">
+                <form method="POST" action="{{ route('admin.login') }}" class="space-y-6" id="login-form">
                     @csrf
 
                     <!-- Session warning -->
@@ -46,7 +46,7 @@
                         </div>
                     @endif
 
-                    <!-- reCAPTCHA error -->
+                    <!-- reCAPTCHA error (server-side) -->
                     @error('recaptcha')
                         <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-800 text-sm text-center">
                             {{ $message }}
@@ -151,7 +151,28 @@
         }
     </script>
 
-    <!-- Google reCAPTCHA script -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Google reCAPTCHA script + client-side validation -->
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    const response = grecaptcha.getResponse();
+
+    if (response.length === 0) {
+        e.preventDefault();
+        alert("Please complete the reCAPTCHA verification (check 'I'm not a robot').");
+        
+        // Optional: scroll to reCAPTCHA
+        document.querySelector('.g-recaptcha').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+        
+        return false;
+    }
+    
+    // If checked → form submits normally
+});
+    </script>
 
 @endsection

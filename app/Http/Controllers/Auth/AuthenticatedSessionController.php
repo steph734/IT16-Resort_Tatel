@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -22,15 +24,40 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+  public function store(LoginRequest $request): RedirectResponse
+{
+    $request->validate([
+        'g-recaptcha-response' => [
+            'required',
+            function ($attribute, $value, $fail) use ($request) {   // ← add this
+                $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                    'secret'   => env('RECAPTCHA_SECRET_KEY'),
+                    'response' => $value,
+                    'remoteip' => $request->ip(),
+                ]);
 
-        $request->session()->regenerate();
+                $body = $response->json();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+                if (!$body['success']) {
+                    $fail('reCAPTCHA verification failed. Please try again.');
+                }
+            },
+        ],
+    ]);
+
+    $request->authenticate();
+
+    $request->session()->regenerate();
+
+    // Optional admin check
+    if (Auth::user()?->role !== 'admin') {
+        Auth::logout();
+        return redirect()->route('admin.login')
+            ->withErrors(['email' => 'You do not have admin access.']);
     }
 
+    return redirect()->intended(route('dashboard', absolute: false));
+}
     /**
      * Destroy an authenticated session.
      */
