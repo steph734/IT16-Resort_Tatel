@@ -9,15 +9,15 @@ use App\Models\Audit_Log;
 class AuditLogController extends Controller
 {
     /**
-    * Display a listing of audit logs. Accessible to owner via admin.only middleware.
+     * Display a listing of audit logs.
      */
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $action = $request->input('action');
-        $userId = $request->input('user_id');
+        $search   = $request->input('search');
+        $action   = $request->input('action');
+        $userId   = $request->input('user_id');
         $dateFrom = $request->input('date_from');
-        $dateTo = $request->input('date_to');
+        $dateTo   = $request->input('date_to');
 
         $query = Audit_Log::with('user')->orderBy('created_at', 'desc');
 
@@ -48,12 +48,12 @@ class AuditLogController extends Controller
         $logs = $query->paginate(25)->withQueryString();
 
         return view('admin.audit-logs', [
-            'logs' => $logs,
-            'search' => $search,
-            'action' => $action,
-            'userId' => $userId,
+            'logs'     => $logs,
+            'search'   => $search,
+            'action'   => $action,
+            'userId'   => $userId,
             'dateFrom' => $dateFrom,
-            'dateTo' => $dateTo,
+            'dateTo'   => $dateTo,
         ]);
     }
 }

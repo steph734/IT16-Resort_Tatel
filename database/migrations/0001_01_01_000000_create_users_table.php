@@ -19,6 +19,10 @@ return new class extends Migration {
             $table->string('password');
             $table->string('role')->default('user'); // admin, staff, etc.
             $table->string('status')->default('active'); // ✅ fixed — removed after('role')
+         $table->integer('failed_attempts')->default(0);
+        $table->timestamp('locked_until')->nullable();
+               $table->integer('lock_level')->default(0);
+        $table->timestamp('last_failed_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -18,6 +18,8 @@ class Audit_Log extends Model
     // Auto-incrementing ID
     public $incrementing = true;
 
+     public $timestamps = true;
+
     // Mass-assignable fields
     protected $fillable = [
         'user_id',
