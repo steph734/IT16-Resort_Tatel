@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\AdminResetPasswordNotification;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -40,9 +41,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'password' => 'hashed',           // ← This tells Laravel: always hash the password!
+   protected $casts = [
         'email_verified_at' => 'datetime',
+        'locked_until' => 'datetime',
+        'last_failed_login' => 'datetime',
+        'password' => 'hashed', // ← Automatic bcrypt hashing here
     ];
 
     // Relationships

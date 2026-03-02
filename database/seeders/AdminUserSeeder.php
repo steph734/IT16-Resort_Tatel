@@ -19,15 +19,17 @@ class AdminUserSeeder extends Seeder
             ->whereNull('status')
             ->update(['status' => 'active']);
 
+        // Get password from .env with a safe fallback (never rely on fallback in production!)
+        $defaultPassword = env('SEEDER_DEFAULT_PASSWORD', 'fallback-very-secure-password-987654');
+
         // Check if admin user exists, if not create it
         if (!User::where('email', 'admin@jara.com')->exists()) {
             User::create([
-                'name' => 'Jara',
-                'email' => 'admin@jara.com',
-                    // Use 12-character sample password to match new policy
-                    'password' => Hash::make('123456789012'),
-                'role' => Role::Admin->value,
-                'status' => 'active',
+                'name'              => 'Jara',
+                'email'             => 'admin@jara.com',
+                'password'          => Hash::make($defaultPassword),
+                'role'              => Role::Admin->value,
+                'status'            => 'active',
                 'email_verified_at' => now(),
             ]);
         }
@@ -35,30 +37,30 @@ class AdminUserSeeder extends Seeder
         // Create an owner account if it doesn't exist
         if (!User::where('email', 'owner@jara.com')->exists()) {
             User::create([
-                'name' => 'Owner',
-                'email' => 'owner@jara.com',
-                    'password' => Hash::make('123456789012'),
-                'role' => Role::Owner->value,
-                'status' => 'active',
+                'name'              => 'Owner',
+                'email'             => 'owner@jara.com',
+                'password'          => Hash::make($defaultPassword),
+                'role'              => Role::Owner->value,
+                'status'            => 'active',
                 'email_verified_at' => now(),
             ]);
         }
 
         // Create additional staff if they don't exist
         $staffUsers = [
-            ['name' => 'Kaye', 'email' => 'kaye@jara.com'],
+            ['name' => 'Kaye',       'email' => 'kaye@jara.com'],
             ['name' => 'John David', 'email' => 'johndavid@jara.com'],
-            ['name' => 'Stephen', 'email' => 'stephen@jara.com'],
+            ['name' => 'Stephen',    'email' => 'stephen@jara.com'],
         ];
 
         foreach ($staffUsers as $staff) {
             if (!User::where('email', $staff['email'])->exists()) {
                 User::create([
-                    'name' => $staff['name'],
-                    'email' => $staff['email'],
-                        'password' => Hash::make('123456789012'),
-                    'role' => Role::Staff->value,
-                    'status' => 'active',
+                    'name'              => $staff['name'],
+                    'email'             => $staff['email'],
+                    'password'          => Hash::make($defaultPassword),
+                    'role'              => Role::Staff->value,
+                    'status'            => 'active',
                     'email_verified_at' => now(),
                 ]);
             }
@@ -67,11 +69,11 @@ class AdminUserSeeder extends Seeder
         // Create one disabled user for testing
         if (!User::where('email', 'disabled@jara.com')->exists()) {
             User::create([
-                'name' => 'Disabled User',
-                'email' => 'disabled@jara.com',
-                    'password' => Hash::make('123456789012'),
-                'role' => Role::Staff->value,
-                'status' => 'disabled',
+                'name'              => 'Disabled User',
+                'email'             => 'disabled@jara.com',
+                'password'          => Hash::make($defaultPassword),
+                'role'              => Role::Staff->value,
+                'status'            => 'disabled',
                 'email_verified_at' => now(),
             ]);
         }
