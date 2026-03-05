@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <!-- Purchases Table -->
+        <!-- Purchases Table - MASKED VERSION -->
         <div class="table-container">
             <table class="purchases-table" id="purchasesTable">
                 <thead>
@@ -56,7 +56,7 @@
                             data-vendor="{{ strtolower($purchase->vendor_name) }}"
                             data-entry="{{ strtolower($purchase->entry_number) }}">
                             <td>
-                                <strong>{{ $purchase->entry_number }}</strong>
+                                <strong>{{ \Illuminate\Support\Str::mask($purchase->entry_number, '*', 3) }}</strong>
                             </td>
                             <td>
                                 <div>{{ $purchase->purchase_date->format('M d, Y') }}</div>
@@ -66,7 +66,7 @@
                                 <div class="vendor-name">{{ $purchase->vendor_name }}</div>
                             </td>
                             <td class="text-center">
-                                <strong>₱{{ number_format($purchase->total_amount, 2) }}</strong>
+                                <strong>***</strong>
                             </td>
                             <td class="text-center">
                                 {{ $purchase->items->count() }} items
@@ -114,7 +114,6 @@
         </div>
     </div>
 
-    <!-- Purchase entry modals removed - now using dedicated page at /purchase-entry -->
 @endsection
 
 @section('scripts')
@@ -135,7 +134,6 @@
                         row.style.transition = 'background-color 0.3s ease';
                         row.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                        // Remove highlight after 3 seconds
                         setTimeout(() => {
                             row.style.backgroundColor = '';
                         }, 3000);
@@ -144,7 +142,7 @@
             }
         });
 
-        // Filter functionality
+        // Filter functionality (still works with masked entry numbers)
         document.getElementById('searchInput').addEventListener('input', filterTable);
         document.getElementById('dateFromFilter').addEventListener('change', filterTable);
         document.getElementById('dateToFilter').addEventListener('change', filterTable);
@@ -157,6 +155,7 @@
             const rows = document.querySelectorAll('#purchasesTableBody tr[data-purchase-id]');
 
             rows.forEach(row => {
+                // We still use the real (unmasked) data-* attributes for filtering
                 const entry = row.getAttribute('data-entry');
                 const vendor = row.getAttribute('data-vendor');
                 const date = row.getAttribute('data-date');
@@ -165,8 +164,7 @@
                 const matchesDateFrom = !dateFrom || date >= dateFrom;
                 const matchesDateTo = !dateTo || date <= dateTo;
 
-                const isVisible = matchesSearch && matchesDateFrom && matchesDateTo;
-                row.style.display = isVisible ? '' : 'none';
+                row.style.display = (matchesSearch && matchesDateFrom && matchesDateTo) ? '' : 'none';
             });
         }
 
@@ -181,9 +179,7 @@
                 }
             })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
@@ -197,82 +193,89 @@
         }
 
         function displayPurchaseDetails(purchase) {
+            // Mask receipt number in modal (if exists)
+            let maskedReceipt = '';
+            if (purchase.receipt_no) {
+                maskedReceipt = purchase.receipt_no.length <= 4
+                    ? purchase.receipt_no
+                    : '****' + purchase.receipt_no.slice(-4);
+            }
+
             const content = `
-                        <!-- Left and Right Column Layout -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
-                            <!-- Left Column: Entry Number, Vendor, Notes -->
-                            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                                <div class="detail-item">
-                                    <label>Entry Number:</label>
-                                    <strong>${purchase.entry_number}</strong>
-                                </div>
-                                <div class="detail-item">
-                                    <label>Vendor:</label>
-                                    <span>${purchase.vendor_name}</span>
-                                </div>
-                                ${purchase.receipt_no ? `
-                                <div class="detail-item">
-                                    <label>Receipt No.:</label>
-                                    <span>${purchase.receipt_no}</span>
-                                </div>
-                                ` : ''}
-                                ${purchase.notes ? `
-                                <div class="detail-item">
-                                    <label>Notes:</label>
-                                    <p>${purchase.notes}</p>
-                                </div>
-                                ` : ''}
-                            </div>
-                            <!-- Right Column: Purchase Date, Recorded By, Recorded At -->
-                            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                                <div class="detail-item">
-                                    <label>Purchase Date:</label>
-                                    <span>${new Date(purchase.purchase_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <label>Recorded By:</label>
-                                    <span>${purchase.creator.name}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <label>Recorded At:</label>
-                                    <span>${new Date(purchase.created_at).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
-                                </div>
-                            </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
+                    <!-- Left Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="detail-item">
+                            <label>Entry Number:</label>
+                            <strong>${purchase.entry_number}</strong> <!-- or mask here too if desired -->
                         </div>
-
-                        <div class="section-divider">
-                            <h3>Purchase Items</h3>
+                        <div class="detail-item">
+                            <label>Vendor:</label>
+                            <span>${purchase.vendor_name}</span>
                         </div>
-
-                        <table class="details-table">
-                            <thead>
-                                <tr>
-                                    <th>SKU</th>
-                                    <th>Item Name</th>
-                                    <th class="text-right">Quantity</th>
-                                    <th class="text-right">Unit Cost</th>
-                                    <th class="text-right">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${purchase.items.map(item => `
-                                    <tr>
-                                        <td><strong>${item.inventory_item?.sku || 'N/A'}</strong></td>
-                                        <td>${item.item_name || item.inventory_item?.name || 'Unknown'}</td>
-                                        <td class="text-right">${item.quantity}</td>
-                                        <td class="text-right">₱${parseFloat(item.unit_cost).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                                        <td class="text-right">₱${parseFloat(item.subtotal).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-
-                        <!-- Total Amount Below Table -->
-                        <div class="purchase-total">
-                            <span class="purchase-total-label">Total:</span>
-                            <span class="purchase-total-amount">₱${parseFloat(purchase.total_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        ${purchase.receipt_no ? `
+                        <div class="detail-item">
+                            <label>Receipt No.:</label>
+                            <span>${maskedReceipt}</span>
                         </div>
-                    `;
+                        ` : ''}
+                        ${purchase.notes ? `
+                        <div class="detail-item">
+                            <label>Notes:</label>
+                            <p>${purchase.notes}</p>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Right Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="detail-item">
+                            <label>Purchase Date:</label>
+                            <span>${new Date(purchase.purchase_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Recorded By:</label>
+                            <span>${purchase.creator.name}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Recorded At:</label>
+                            <span>${new Date(purchase.created_at).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-divider">
+                    <h3>Purchase Items</h3>
+                </div>
+
+                <table class="details-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Item Name</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Unit Cost</th>
+                            <th class="text-right">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${purchase.items.map(item => `
+                            <tr>
+                                <td><strong>${item.inventory_item?.sku || 'N/A'}</strong></td>
+                                <td>${item.item_name || item.inventory_item?.name || 'Unknown'}</td>
+                                <td class="text-right">${item.quantity}</td>
+                                <td class="text-right">₱${parseFloat(item.unit_cost).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                <td class="text-right">₱${parseFloat(item.subtotal).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+
+                <div class="purchase-total">
+                    <span class="purchase-total-label">Total:</span>
+                    <span class="purchase-total-amount">₱${parseFloat(purchase.total_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                </div>
+            `;
 
             document.getElementById('purchaseDetailsContent').innerHTML = content;
         }
@@ -281,14 +284,8 @@
             document.getElementById('purchaseDetailsModal').classList.remove('show');
         }
 
-        // Delete Purchase function removed from UI to prevent manipulation
-
-        // Purchase entry modal functions removed - now using dedicated page at /purchase-entry
-
-        // Close modals on outside click
         window.onclick = function (event) {
             const detailsModal = document.getElementById('purchaseDetailsModal');
-
             if (event.target == detailsModal) {
                 closePurchaseDetailsModal();
             }

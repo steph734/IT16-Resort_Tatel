@@ -704,7 +704,7 @@ class RentalsController extends Controller
             'booking_id' => 'required|exists:bookings,BookingID',
             'rental_item_id' => 'required|exists:rental_items,id',
             'quantity' => 'required|integer|min:1',
-            'notes' => 'nullable|string',
+            'notes'          => 'nullable|string|max:2000',
         ]);
 
         if ($validator->fails()) {
@@ -737,7 +737,7 @@ class RentalsController extends Controller
                 'rate_snapshot' => $item->rate,
                 'rate_type_snapshot' => $item->rate_type,
                 'status' => 'Issued',
-                'notes' => $validated['notes'] ?? null,
+                'notes'          => $validated['notes'],
                 'issued_at' => Carbon::now(),
                 'issued_by' => Auth::user()->user_id,
 
