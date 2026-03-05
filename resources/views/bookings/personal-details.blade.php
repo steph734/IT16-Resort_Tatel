@@ -117,18 +117,36 @@
             <!-- Contact Fields Row (Email and Phone) -->
             <div class="form-row two-cols">
                 <div class="form-field">
-                    <label class="form-label">Email</label>
-                    <div class="input-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-               <input type="email" name="email" value="{{ $personalDetails['email'] ?? old('email') }}" class="form-input" placeholder="Enter Email" required
-                   onblur="this.value=this.value.toLowerCase();"
-                   onpaste="(function(e){setTimeout(()=>{e.target.value=e.target.value.toLowerCase();},0)})(event)">
-                    </div>
-                    @error('email') <p class="error-message">{{ $message }}</p> @enderror
-                </div>
+                  <label class="form-label">Email</label>
+    <div class="input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
 
+        <input 
+            type="email" 
+            name="email" 
+            id="email"
+            value="{{ $personalDetails['email'] ?? old('email') }}" 
+            class="form-input" 
+            placeholder="Enter Email" 
+            required
+            onblur="handleEmailInput(this)"
+            oninput="clearEmailError(this)"
+            onpaste="setTimeout(() => handleEmailInput(this), 0)"
+        >
+    </div>
+
+    @error('email')
+        <p class="error-message">{{ $message }}</p>
+    @enderror
+
+    <p id="email-custom-error" 
+       class="error-message" 
+       style="display: none; color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">
+        <!-- JS will set the message here -->
+    </p>
+</div>
                 <div class="form-field">
                     <label class="form-label">Phone</label>
                     <div class="input-wrapper">
@@ -294,6 +312,60 @@
 </div>
 
     <script>
+
+        function handleEmailInput(el) {
+    // 1. Clean input
+    let val = (el.value || '').trim().toLowerCase();
+    el.value = val;
+
+    const errorEl = document.getElementById('email-custom-error');
+    errorEl.style.display = 'none';
+    el.setCustomValidity('');
+
+    if (!val) return; // required= will catch empty
+
+    let errorMsg = '';
+
+    // Split into local and domain
+    const parts = val.split('@');
+    if (parts.length !== 2) {
+        errorMsg = "Email must contain exactly one @ symbol";
+    } else {
+        const local  = parts[0];
+        const domain = parts[1];
+
+        // Block if local part is purely numbers
+        if (local && /^\d+$/.test(local)) {
+            errorMsg = "Only valid email is accepted";
+        }
+        // Block if domain is purely numbers (before the last dot)
+        else if (domain) {
+            const domainMain = domain.split('.').slice(0, -1).join('.');
+            if (domainMain && /^\d+$/.test(domainMain)) {
+                errorMsg = "Domain (after @) cannot be only numbers";
+            }
+        }
+
+        // Optional: very basic overall format check
+        if (!errorMsg && !val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            errorMsg = "Invalid email format";
+        }
+    }
+
+    if (errorMsg) {
+        errorEl.textContent = errorMsg;
+        errorEl.style.display = 'block';
+        el.setCustomValidity(errorMsg);
+    }
+}
+
+function clearEmailError(el) {
+    const errorEl = document.getElementById('email-custom-error');
+    if (errorEl) {
+        errorEl.style.display = 'none';
+    }
+    el.setCustomValidity('');
+}
         // Capitalize proper function - allows manual capitalization (e.g., Region XI stays as XI)
         function capitalizeProperInline(element) {
             const start = element.selectionStart;

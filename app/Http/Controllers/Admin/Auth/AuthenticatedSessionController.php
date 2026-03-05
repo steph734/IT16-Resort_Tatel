@@ -120,7 +120,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // CASE 4: Successful login
-        Auth::login($user);
+      Auth::guard('web')->login($user);
 
         $request->session()->regenerate();
 

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Notifications\AdminResetPasswordNotification;
+use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -15,6 +16,8 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     use TwoFactorAuthenticatable;
+
+    use HasRoles;
 
     protected $primaryKey = 'user_id';
     public $incrementing = false;

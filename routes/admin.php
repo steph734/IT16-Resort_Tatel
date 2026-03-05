@@ -64,7 +64,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('admin.unload-beacon');
 
     // Routes that should NOT be accessible to owner (they can only access Sales and Settings)
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::middleware('not.owner')->group(function () {
+            Route::get('dashboard', [DashboardController::class, 'index'])
+                ->name('dashboard');
+
             // Test toggle functionality (remove in production)
             Route::get('test-toggle', function () {
                 return view('admin.test-toggle');
@@ -331,4 +334,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/admin/inventory/adjust', [InventoryController::class, 'adjustStock'])->name('admin.inventory.adjust');
     });Route::get('/admin/bookings/{booking}/outstanding', [CurrentlyStayingController::class, 'getOutstanding'])
         ->name('admin.booking.outstanding');
-        
+});
