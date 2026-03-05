@@ -50,7 +50,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Admin Protected Routes
     // Add server-side inactivity check to admin protected routes. Uses
     // App\Http\Middleware\SessionInactivity to enforce auto-logout on idle.
-    Route::middleware(['admin', \App\Http\Middleware\SessionInactivity::class])->group(function () {
+   Route::middleware(['auth', \App\Http\Middleware\SessionInactivity::class])->group(function () {
         // Heartbeat endpoint: keeps server-side session last_activity_time updated
         Route::post('keep-alive', function (Request $request) {
             $request->session()->put('last_activity_time', time());
@@ -64,10 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('admin.unload-beacon');
 
     // Routes that should NOT be accessible to owner (they can only access Sales and Settings)
-    Route::middleware('not.owner')->group(function () {
-            Route::get('dashboard', [DashboardController::class, 'index'])
-                ->name('dashboard');
-
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
             // Test toggle functionality (remove in production)
             Route::get('test-toggle', function () {
                 return view('admin.test-toggle');
@@ -334,4 +331,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/admin/inventory/adjust', [InventoryController::class, 'adjustStock'])->name('admin.inventory.adjust');
     });Route::get('/admin/bookings/{booking}/outstanding', [CurrentlyStayingController::class, 'getOutstanding'])
         ->name('admin.booking.outstanding');
-});
+        

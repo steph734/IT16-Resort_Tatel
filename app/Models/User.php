@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
+        'failed_attempts',
+    'locked_until',
+    'last_failed_login',
+    'lock_level',
+
     ];
 
     protected $hidden = [
