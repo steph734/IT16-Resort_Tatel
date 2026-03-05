@@ -6,18 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Notifications\AdminResetPasswordNotification;
-use Spatie\Permission\Traits\HasRoles;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    use TwoFactorAuthenticatable;
-
-    use HasRoles;
+    
 
     protected $primaryKey = 'user_id';
     public $incrementing = false;
@@ -33,11 +28,6 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
-        'failed_attempts',
-    'locked_until',
-    'last_failed_login',
-    'lock_level',
-
     ];
 
     protected $hidden = [
@@ -45,11 +35,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-   protected $casts = [
+    protected $casts = [
+        'password' => 'hashed',           // ← This tells Laravel: always hash the password!
         'email_verified_at' => 'datetime',
-        'locked_until' => 'datetime',
-        'last_failed_login' => 'datetime',
-        'password' => 'hashed', // ← Automatic bcrypt hashing here
     ];
 
     // Relationships
