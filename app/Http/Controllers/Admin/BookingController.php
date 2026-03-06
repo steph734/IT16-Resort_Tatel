@@ -113,7 +113,7 @@ class BookingController extends Controller
 
             default:
                 // Default: status priority (Staying → Booked → Completed), newest first
-                $query->orderByRaw("CASE
+                 $query->orderByRaw("CASE
                     WHEN BookingStatus = 'Staying' THEN 1
                     WHEN BookingStatus = 'Booked' THEN 2
                     WHEN BookingStatus = 'Completed' THEN 3
