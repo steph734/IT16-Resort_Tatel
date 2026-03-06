@@ -28,7 +28,6 @@ class BookingController extends Controller
     private const PAYMENT_PARTIAL     = 'Partial';
     private const PAYMENT_DOWNPAYMENT = 'Downpayment';
     private const PAYMENT_UNPAID      = 'Unpaid';
-    private const BOOKINGS_ALL_COLS   = 'bookings.*';
 
     /**
      * Display the bookings page with all bookings data
@@ -74,7 +73,16 @@ class BookingController extends Controller
         // Sorting
         switch ($sort) {
             case 'status_priority':
-                $this->applyStatusPrioritySort($query);
+                // Staying first, Booked second, then Completed (newest to oldest)
+                $query->orderByRaw("CASE
+                    WHEN BookingStatus = 'Staying' THEN 1
+                    WHEN BookingStatus = 'Booked' THEN 2
+                    WHEN BookingStatus = 'Completed' THEN 3
+                    WHEN BookingStatus = 'Cancelled' THEN 4
+                    WHEN BookingStatus = 'Confirmed' THEN 5
+                    WHEN BookingStatus = 'Pending' THEN 6
+                    ELSE 7 END")
+                      ->orderBy('CheckInDate', 'desc');
                 break;
 
             case 'bookingdate_oldest':
@@ -94,17 +102,26 @@ class BookingController extends Controller
             case 'name_asc':
                 $query->join('guests', 'bookings.GuestID', '=', 'guests.GuestID')
                       ->orderBy('guests.FName', 'asc')
-                      ->select(self::BOOKINGS_ALL_COLS);
+                      ->select('bookings.*');
                 break;
 
             case 'name_desc':
                 $query->join('guests', 'bookings.GuestID', '=', 'guests.GuestID')
                       ->orderBy('guests.FName', 'desc')
-                      ->select(self::BOOKINGS_ALL_COLS);
+                      ->select('bookings.*');
                 break;
 
             default:
-                $this->applyStatusPrioritySort($query);
+                // Default: status priority (Staying → Booked → Completed), newest first
+                $query->orderByRaw("CASE
+                    WHEN BookingStatus = 'Staying' THEN 1
+                    WHEN BookingStatus = 'Booked' THEN 2
+                    WHEN BookingStatus = 'Completed' THEN 3
+                    WHEN BookingStatus = 'Cancelled' THEN 4
+                    WHEN BookingStatus = 'Confirmed' THEN 5
+                    WHEN BookingStatus = 'Pending' THEN 6
+                    ELSE 7 END")
+                      ->orderBy('CheckInDate', 'desc');
                 break;
         }
 
@@ -122,23 +139,6 @@ class BookingController extends Controller
         ));
     }
 // ---
-
-    /**
-     * Apply status priority sort to a query (Staying → Booked → Completed, newest first).
-     * Extracted to avoid duplicate code blocks (SonarQube).
-     */
-    private function applyStatusPrioritySort(&$query): void
-    {
-        $query->orderByRaw("CASE
-            WHEN BookingStatus = 'Staying' THEN 1
-            WHEN BookingStatus = 'Booked' THEN 2
-            WHEN BookingStatus = 'Completed' THEN 3
-            WHEN BookingStatus = 'Cancelled' THEN 4
-            WHEN BookingStatus = 'Confirmed' THEN 5
-            WHEN BookingStatus = 'Pending' THEN 6
-            ELSE 7 END")
-              ->orderBy('CheckInDate', 'desc');
-    }
 
     /**
      * Apply payment filter to a query builder instance.
@@ -218,7 +218,7 @@ class BookingController extends Controller
         }
 
         // Ensure original booking columns selected (avoid polluting with joins)
-        $query->select(self::BOOKINGS_ALL_COLS)->distinct();
+        $query->select('bookings.*')->distinct();
     }
     public function create(): View
     {
@@ -259,7 +259,6 @@ class BookingController extends Controller
                 $totalPaid = $booking->payments->sum('Amount');
 
                 // Determine payment status - all payments are auto-confirmed
-                $paymentStatuses = $booking->payments->pluck('PaymentStatus')->unique();
 
                 if ($totalPaid >= $totalAmount) {
                     $paymentStatus = self::PAYMENT_FULLY_PAID;
@@ -1153,7 +1152,6 @@ class BookingController extends Controller
 
         // Determine overall payment status based on actual payment statuses
         // All payments are auto-confirmed, no "For Verification" status
-        $paymentStatuses = $booking->payments->pluck('PaymentStatus')->unique();
 
         if ($totalPaid >= $totalAmount) {
             $paymentStatus = self::PAYMENT_FULLY_PAID;
