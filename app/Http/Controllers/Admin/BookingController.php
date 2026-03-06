@@ -23,6 +23,12 @@ use App\Services\PaymongoService;
 
 class BookingController extends Controller
 {
+    // Payment status constants (SonarQube: avoid duplicating string literals)
+    private const PAYMENT_FULLY_PAID  = 'Fully Paid';
+    private const PAYMENT_PARTIAL     = 'Partial';
+    private const PAYMENT_DOWNPAYMENT = 'Downpayment';
+    private const PAYMENT_UNPAID      = 'Unpaid';
+
     /**
      * Display the bookings page with all bookings data
      */
@@ -35,7 +41,7 @@ class BookingController extends Controller
         $payment = request('payment');
 
         // Define payment filter options (no "For Verification" - payments are auto-confirmed)
-        $paymentOptions = ['Fully Paid', 'Partial', 'Downpayment', 'Unpaid'];
+        $paymentOptions = [self::PAYMENT_FULLY_PAID, self::PAYMENT_PARTIAL, self::PAYMENT_DOWNPAYMENT, self::PAYMENT_UNPAID];
 
         // Default sort: status priority (Staying → Booked → Completed), then newest check-in first
         $sort = request('sort', 'status_priority');
@@ -68,7 +74,7 @@ class BookingController extends Controller
         switch ($sort) {
             case 'status_priority':
                 // Staying first, Booked second, then Completed (newest to oldest)
-                $query->orderByRaw("CASE 
+                $query->orderByRaw("CASE
                     WHEN BookingStatus = 'Staying' THEN 1
                     WHEN BookingStatus = 'Booked' THEN 2
                     WHEN BookingStatus = 'Completed' THEN 3
@@ -107,7 +113,7 @@ class BookingController extends Controller
 
             default:
                 // Default: status priority (Staying → Booked → Completed), newest first
-                $query->orderByRaw("CASE 
+                $query->orderByRaw("CASE
                     WHEN BookingStatus = 'Staying' THEN 1
                     WHEN BookingStatus = 'Booked' THEN 2
                     WHEN BookingStatus = 'Completed' THEN 3
@@ -256,15 +262,15 @@ class BookingController extends Controller
                 $paymentStatuses = $booking->payments->pluck('PaymentStatus')->unique();
 
                 if ($totalPaid >= $totalAmount) {
-                    $paymentStatus = 'Fully Paid';
+                    $paymentStatus = self::PAYMENT_FULLY_PAID;
                 } elseif ($totalPaid > ($totalAmount * 0.50)) {
                     // More than 50% paid but not fully paid
-                    $paymentStatus = 'Partial';
+                    $paymentStatus = self::PAYMENT_PARTIAL;
                 } elseif ($totalPaid > 0) {
                     // Some payment made but 50% or less
-                    $paymentStatus = 'Downpayment';
+                    $paymentStatus = self::PAYMENT_DOWNPAYMENT;
                 } else {
-                    $paymentStatus = 'Unpaid';
+                    $paymentStatus = self::PAYMENT_UNPAID;
                 }
 
                 $paymentMethods = $booking->payments->pluck('PaymentMethod')->unique()->join(', ') ?: 'N/A';
@@ -452,9 +458,9 @@ class BookingController extends Controller
 
         // Persist immediately: upsert Guest, create Booking, then handle Payment
         $halfAmount = $totalAmount * 0.5;
-        $paymentStatus = 'Downpayment';
+        $paymentStatus = self::PAYMENT_DOWNPAYMENT;
         if ($validated['amount_paid'] >= $totalAmount) {
-            $paymentStatus = 'Fully Paid';
+            $paymentStatus = self::PAYMENT_FULLY_PAID;
         }
 
         // Upsert guest by Email (fallback to Phone)
@@ -504,11 +510,11 @@ class BookingController extends Controller
         if ($method === 'paymongo') {
             // Create PayMongo checkout via service, then create Payment row as For Verification
             $purposeMap = [
-                'reservation_fee' => 'Downpayment',
-                'downpayment' => 'Downpayment',
+                'reservation_fee' => self::PAYMENT_DOWNPAYMENT,
+                'downpayment' => self::PAYMENT_DOWNPAYMENT,
                 'full_payment' => 'Full Payment',
             ];
-            $purpose = $purposeMap[$validated['payment_purpose']] ?? 'Downpayment';
+            $purpose = $purposeMap[$validated['payment_purpose']] ?? self::PAYMENT_DOWNPAYMENT;
 
             $amountCentavos = (int) round($validated['amount_paid'] * 100);
             $desc = 'JBRB Admin Checkout ' . $booking->BookingID . ' - ' . $purpose;
@@ -598,12 +604,12 @@ class BookingController extends Controller
             // Create transaction record for manual payment
             // Map payment status to transaction enum values
             $transactionStatus = match($paymentStatus) {
-                'Fully Paid' => 'Fully Paid',
-                'Partial' => 'Partial Payment',
-                'Downpayment' => 'Downpayment',
-                default => 'Downpayment',
+                self::PAYMENT_FULLY_PAID => self::PAYMENT_FULLY_PAID,
+                self::PAYMENT_PARTIAL => 'Partial Payment',
+                self::PAYMENT_DOWNPAYMENT => self::PAYMENT_DOWNPAYMENT,
+                default => self::PAYMENT_DOWNPAYMENT,
             };
-            
+
             Transaction::create([
                 'transaction_type' => 'booking',
                 'reference_id' => $payment->PaymentID,
@@ -1150,13 +1156,13 @@ class BookingController extends Controller
         $paymentStatuses = $booking->payments->pluck('PaymentStatus')->unique();
 
         if ($totalPaid >= $totalAmount) {
-            $paymentStatus = 'Fully Paid';
+            $paymentStatus = self::PAYMENT_FULLY_PAID;
         } elseif ($totalPaid > 0) {
             // Check if we have multiple payments to determine Partial vs Downpayment
             $paymentCount = $booking->payments->count();
-            $paymentStatus = $paymentCount > 1 ? 'Partial' : 'Downpayment';
+            $paymentStatus = $paymentCount > 1 ? self::PAYMENT_PARTIAL : self::PAYMENT_DOWNPAYMENT;
         } else {
-            $paymentStatus = 'Unpaid';
+            $paymentStatus = self::PAYMENT_UNPAID;
         }
 
         return response()->json([
@@ -1276,12 +1282,12 @@ class BookingController extends Controller
 
         // Determine payment status: Downpayment, Partial, or Fully Paid
         $halfAmount = $totalAmount * 0.5;
-        $paymentStatus = 'Downpayment';
+        $paymentStatus = self::PAYMENT_DOWNPAYMENT;
 
         if ($newTotal >= $totalAmount) {
-            $paymentStatus = 'Fully Paid';
+            $paymentStatus = self::PAYMENT_FULLY_PAID;
         } elseif ($newTotal > $halfAmount) {
-            $paymentStatus = 'Partial';
+            $paymentStatus = self::PAYMENT_PARTIAL;
         }
 
         // Create new payment record
@@ -1300,12 +1306,12 @@ class BookingController extends Controller
         // Create transaction record for additional payment
         // Map payment status to transaction enum values
         $transactionStatus = match($paymentStatus) {
-            'Fully Paid' => 'Fully Paid',
-            'Partial' => 'Partial Payment',
-            'Downpayment' => 'Downpayment',
-            default => 'Downpayment',
+            self::PAYMENT_FULLY_PAID => self::PAYMENT_FULLY_PAID,
+            self::PAYMENT_PARTIAL => 'Partial Payment',
+            self::PAYMENT_DOWNPAYMENT => self::PAYMENT_DOWNPAYMENT,
+            default => self::PAYMENT_DOWNPAYMENT,
         };
-        
+
         Transaction::create([
             'transaction_type' => 'booking',
             'reference_id' => $payment->PaymentID,
@@ -1488,9 +1494,9 @@ class BookingController extends Controller
 
             // Determine the correct payment status based on amount paid
             if ($payment->Amount >= $totalAmount) {
-                $payment->PaymentStatus = 'Fully Paid';
+                $payment->PaymentStatus = self::PAYMENT_FULLY_PAID;
             } else {
-                $payment->PaymentStatus = 'Downpayment';
+                $payment->PaymentStatus = self::PAYMENT_DOWNPAYMENT;
             }
             $payment->save();
 
