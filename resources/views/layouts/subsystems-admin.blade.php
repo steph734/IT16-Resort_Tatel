@@ -43,10 +43,9 @@
                     </div>
                 </div>
 
-                <!-- Optional centered nav (remove or customize) -->
+                <!-- Optional centered nav (can be removed or used later) -->
                 <nav class="hidden lg:flex items-center gap-8">
-                    <!-- <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a> -->
-                    <!-- Add real links here if needed -->
+                    <!-- Add links here if needed -->
                 </nav>
 
                 <!-- Logout -->
@@ -63,10 +62,10 @@
         </div>
     </header>
 
-    <!-- Overlay (mobile sidebar backdrop) -->
+    <!-- Mobile Sidebar Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity lg:hidden pointer-events-none opacity-0"></div>
 
-    <!-- Wrapper (push content down by header height) -->
+    <!-- Main Wrapper -->
     <div class="pt-16 flex min-h-screen">
 
         <!-- Sidebar -->
@@ -74,6 +73,7 @@
               class="admin-sidebar fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-gray-200 transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto lg:border-r lg:shadow-sm">
             <div class="flex flex-col h-full">
                 <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
+
                     <a href="{{ route('admin.dashboard') }}"
                        class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 {{ request()->routeIs('admin.dashboard', 'admin.bookings', 'admin.currently-staying') ? 'bg-blue-50 text-blue-700' : '' }}">
                         <i class="fas fa-umbrella-beach w-6 text-center"></i>
@@ -86,11 +86,14 @@
                         <span class="ml-4 sidebar-text">Rentals</span>
                     </a>
 
-                    <a href="{{ route('admin.sales') }}"
-                       class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 {{ request()->routeIs('admin.sales') ? 'bg-blue-50 text-blue-700' : '' }}">
-                        <i class="fas fa-dollar-sign w-6 text-center"></i>
-                        <span class="ml-4 sidebar-text">Sales</span>
-                    </a>
+                    <!-- Sales → visible ONLY to owner / superadmin -->
+                    @if (auth()->check() && in_array(auth()->user()->role, ['owner', 'superadmin']))
+                        <a href="{{ route('admin.sales') }}"
+                           class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 {{ request()->routeIs('admin.sales', 'admin.sales.*') ? 'bg-blue-50 text-blue-700' : '' }}">
+                            <i class="fas fa-chart-line w-6 text-center"></i>
+                            <span class="ml-4 sidebar-text">Sales</span>
+                        </a>
+                    @endif
 
                     <a href="{{ route('admin.inventory') }}"
                        class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 {{ request()->routeIs('admin.inventory') ? 'bg-blue-50 text-blue-700' : '' }}">
@@ -123,13 +126,13 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="flex-1 overflow-y-auto bg-gray-100 p-5 lg:p-8">
             @yield('content')
         </main>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Mobile Sidebar Toggle Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar   = document.getElementById('sidebar');
@@ -158,16 +161,14 @@
 
             overlay?.addEventListener('click', closeSidebar);
 
-            // Close on link click (mobile only)
             document.querySelectorAll('.sidebar-item').forEach(link => {
                 link.addEventListener('click', () => {
-                    if (window.innerWidth < 1024) { // lg breakpoint
+                    if (window.innerWidth < 1024) {
                         closeSidebar();
                     }
                 });
             });
 
-            // Optional: close on escape key
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape' && !sidebar.classList.contains('-translate-x-full')) {
                     closeSidebar();
@@ -175,6 +176,70 @@
             });
         });
     </script>
+
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Restrict "Transactions" top bar link click for non-owner users -->
+    @auth
+        @if (!in_array(auth()->user()->role, ['owner', 'superadmin']))
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                // Find all "Transactions" links in top nav that need protection
+                // Adjust selector if your top nav uses different classes/ids
+                const transactionLinks = document.querySelectorAll('a[href*="/transactions"], a[href*="/sales/transactions"], .nav-transactions, .topnav-transactions');
+
+                transactionLinks.forEach(link => {
+                    // Only intercept if it's not already the active page
+                    if (window.location.pathname.includes('/transactions')) return;
+
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+
+                        const userId = "{{ auth()->id() }}";
+
+                        Swal.fire({
+                            title: 'Restricted Access',
+                            html: `
+                                <div class="text-left">
+                                    <p class="mb-4">You need to verify your identity before accessing Transactions.</p>
+                                    <p class="mb-2">Please enter your <strong>User ID</strong></p>
+                                    <p class="text-sm text-gray-600">(Your ID: <strong>${userId}</strong>)</p>
+                                </div>
+                            `,
+                            input: 'text',
+                            inputPlaceholder: 'Enter your user ID',
+                            inputAttributes: {
+                                'inputmode': 'numeric',
+                                'pattern': '[0-9]+',
+                                'autocomplete': 'off'
+                            },
+                            showCancelButton: true,
+                            confirmButtonText: 'Verify',
+                            cancelButtonText: 'Cancel',
+                            allowOutsideClick: false,
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return 'Please enter your User ID';
+                                }
+                                if (value.trim() !== userId) {
+                                    return 'Incorrect User ID';
+                                }
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Correct ID → redirect to Transactions
+                                window.location.href = "{{ route('admin.sales.transactions') ?? '/admin/sales/transactions' }}";
+                            }
+                            // Cancel or wrong ID → stay on current page (dashboard)
+                        });
+                    });
+                });
+            });
+            </script>
+        @endif
+    @endauth
 
     @stack('scripts')
     @yield('scripts')

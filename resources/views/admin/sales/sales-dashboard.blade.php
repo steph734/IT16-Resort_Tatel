@@ -25,7 +25,7 @@
         <div class="kpi-content">
             <div class="kpi-label" id="kpi1Label">Booking Sales</div>
             <div class="kpi-change positive"><i class="fas fa-arrow-up"></i> <span id="kpi1Change">0%</span> <span id="kpi1ChangeText">vs last period</span></div>
-            <div class="kpi-value">₱<span id="kpi1Value">0.00</span></div>
+            <div class="kpi-value">₱<span id="kpi1Value" class="masked-kpi">0.00</span></div>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
         <div class="kpi-content">
             <div class="kpi-label" id="kpi2Label">Rental Sales</div>
             <div class="kpi-change positive"><i class="fas fa-arrow-up"></i> <span id="kpi2Change">0%</span> <span id="kpi2ChangeText">vs last period</span></div>
-            <div class="kpi-value">₱<span id="kpi2Value">0.00</span></div>
+            <div class="kpi-value">₱<span id="kpi2Value" class="masked-kpi">0.00</span></div>
         </div>
     </div>
 
@@ -47,11 +47,11 @@
         <div class="kpi-content">
             <div class="kpi-label" id="kpi3Label">Sales Difference</div>
             <div class="kpi-change positive" id="kpi3ChangeContainer"><i class="fas fa-arrow-up" id="kpi3Icon"></i> <span id="kpi3ChangeText">vs previous period</span></div>
-            <div class="kpi-value">₱<span id="kpi3Value">0.00</span></div>
+            <div class="kpi-value">₱<span id="kpi3Value" class="masked-kpi">0.00</span></div>
         </div>
     </div>
 
-    <div class="kpi-card kpi-card-clickable" title="Click to view all transactions">
+    <div class="kpi-card kpi-card-clickable" title="Click to view growth details">
         <div class="kpi-icon icon-orange">
             <i class="fas fa-percentage"></i>
         </div>
@@ -170,11 +170,36 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/admin/sweetalert-custom.css') }}">
-<link rel="stylesheet" href="{{ asset('css/admin/sales/sales-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/sweetalert-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/sales/sales-dashboard.css') }}">
+
+    <style>
+        .masked-kpi {
+            position: relative;
+            color: transparent !important;
+            user-select: none;
+        }
+        .masked-kpi::after {
+            content: "••••••";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #444;
+            font-family: monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+        .kpi-value {
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
 @endpush
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="{{ asset('js/admin/sales-dashboard.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/admin/sales-dashboard.js') }}"></script>
 @endpush

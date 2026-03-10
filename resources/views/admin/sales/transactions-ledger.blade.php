@@ -98,21 +98,12 @@
         <table class="ledger-table">
             <thead>
                 <tr>
-                    <th class="col-datetime sortable" data-sort="date">
-                        Date & Time
-                        <i class="fas fa-sort"></i>
-                    </th>
-                    <th class="col-source sortable" data-sort="source">
-                        Source
-                        <i class="fas fa-sort"></i>
-                    </th>
+                    <th class="col-datetime sortable" data-sort="date">Date & Time <i class="fas fa-sort"></i></th>
+                    <th class="col-source sortable" data-sort="source">Source <i class="fas fa-sort"></i></th>
                     <th class="col-transaction-id">Transaction ID</th>
                     <th class="col-guest-name">Guest Name</th>
                     <th class="col-purpose">Purpose</th>
-                    <th class="col-amount sortable" data-sort="amount">
-                        Amount
-                        <i class="fas fa-sort"></i>
-                    </th>
+                    <th class="col-amount sortable" data-sort="amount">Amount <i class="fas fa-sort"></i></th>
                     <th class="col-method">Method</th>
                     <th class="col-actions">Actions</th>
                 </tr>
@@ -137,9 +128,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Select Date Range</h3>
-                <button type="button" class="modal-close" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button type="button" class="modal-close" data-dismiss="modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="date-range-presets">
@@ -147,9 +136,7 @@
                     <button type="button" class="preset-btn" data-preset="month">This Month</button>
                     <button type="button" class="preset-btn" data-preset="week">This Week</button>
                 </div>
-                <div class="form-divider">
-                    <span>Or select custom range</span>
-                </div>
+                <div class="form-divider"><span>Or select custom range</span></div>
                 <div class="form-row-custom">
                     <div class="form-group">
                         <label class="form-label">Start Date</label>
@@ -175,56 +162,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Transaction Details</h3>
-                <button type="button" class="modal-close" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button type="button" class="modal-close" data-dismiss="modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" id="transactionDetailBody">
-                <!-- Dynamically populated with transaction details including Processed By -->
+                <!-- Dynamically populated -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-danger" id="voidTransactionBtn" style="display: none;">
-                    <i class="fas fa-ban"></i>
-                    Void Transaction
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Export Modal -->
-<div class="modal" id="exportLedgerModal">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Export Transactions</h3>
-                <button type="button" class="modal-close" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="export-info">
-                    <i class="fas fa-info-circle"></i>
-                    <span id="exportInfo">Exporting 0 selected transactions</span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Export Format</label>
-                    <select class="form-input" id="ledgerExportFormat">
-                        <option value="csv">CSV (Excel Compatible)</option>
-                        <option value="pdf">PDF Document</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">File Name</label>
-                    <input type="text" class="form-input" id="exportFileName" value="transactions-ledger">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmLedgerExport">
-                    <i class="fas fa-download"></i>
-                    Export
+                    <i class="fas fa-ban"></i> Void Transaction
                 </button>
             </div>
         </div>
@@ -237,9 +183,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Voided Transactions</h3>
-                <button type="button" class="modal-close" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button type="button" class="modal-close" data-dismiss="modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="table-wrapper scrollable-table">
@@ -282,9 +226,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Void Transaction</h3>
-                <button type="button" class="modal-close" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button type="button" class="modal-close" data-dismiss="modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="void-warning">
@@ -304,8 +246,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="confirmVoid">
-                    <i class="fas fa-ban"></i>
-                    Void Transaction
+                    <i class="fas fa-ban"></i> Void Transaction
                 </button>
             </div>
         </div>
@@ -322,7 +263,8 @@
 @push('scripts')
 <script src="{{ asset('js/admin/transactions-ledger.js') }}"></script>
 <script>
-    // Inject user role for access control
-    window.userRole = '{{ auth()->user()->role }}';
+    // Important: Pass authenticated user info to JavaScript
+    window.userRole      = '{{ auth()->user()->role ?? 'owner' }}';
+    window.currentUserId = '{{ auth()->id() }}';           // ← This is critical for the restriction
 </script>
 @endpush

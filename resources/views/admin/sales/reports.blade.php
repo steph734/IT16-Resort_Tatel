@@ -19,8 +19,7 @@
             </div>
             <div class="report-content">
                 <h3 class="report-title">Per Booking Sales Report</h3>
-                <p class="report-description">Comprehensive breakdown of completed booking with all payments, rentals, fees, and discounts
-                </p>
+                <p class="report-description">Comprehensive breakdown of completed booking with all payments, rentals, fees, and discounts</p>
                 <div class="report-meta">
                     <span class="report-tag">Per Booking</span>
                     <span class="report-tag">PDF</span>
@@ -297,5 +296,6 @@
 @endpush
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/admin/sales-reports.js') }}"></script>
 @endpush
