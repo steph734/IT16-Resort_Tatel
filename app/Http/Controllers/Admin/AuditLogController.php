@@ -21,22 +21,30 @@ class AuditLogController extends Controller
 
         $query = Audit_Log::with('user')->orderBy('created_at', 'desc');
 
+        // Search in action, description, IP, **and user name / user_id**
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('action', 'like', "%{$search}%")
                   ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('ip_address', 'like', "%{$search}%");
+                  ->orWhere('ip_address', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($sub) use ($search) {
+                      $sub->where('name', 'like', "%{$search}%")
+                          ->orWhere('user_id', 'like', "%{$search}%");
+                  });
             });
         }
 
+        // Filter by exact action (e.g. ?action=VOID TRANSACTION or ?action=transaction.voided)
         if ($action) {
             $query->where('action', $action);
         }
 
+        // Filter by user_id
         if ($userId) {
             $query->where('user_id', $userId);
         }
 
+        // Date range filters
         if ($dateFrom) {
             $query->whereDate('created_at', '>=', $dateFrom);
         }

@@ -1374,28 +1374,25 @@ class SalesController extends Controller
      * 2. Bill Out Settlement transactions MUST be voided as a complete set (cannot void partial)
      * 3. Only admins can void transactions
      */
-    public function voidTransaction(Request $request, $referenceId)
+  public function voidTransaction(Request $request, $referenceId)
     {
         $validated = $request->validate([
-            'reason' => 'nullable|string|max:500',
+            'reason'         => 'nullable|string|max:500',
             'admin_username' => 'required|string',
         ]);
 
         try {
             DB::beginTransaction();
 
-            // Get the authenticated admin user
             $adminUser = Auth::user();
-            
-            // Verify user is an admin
+
             if (!$adminUser || !in_array($adminUser->role, ['admin', 'staff', 'owner'])) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Only admins can void transactions.'
                 ], 403);
             }
-            
-            // Verify the entered username matches a valid admin (security confirmation)
+
             $enteredUsername = $validated['admin_username'];
             $verifyUser = \App\Models\User::where(function($query) use ($enteredUsername) {
                 $query->where('user_id', $enteredUsername)
@@ -1404,7 +1401,7 @@ class SalesController extends Controller
             })
             ->whereIn('role', ['admin', 'staff', 'owner'])
             ->first();
-            
+
             if (!$verifyUser) {
                 return response()->json([
                     'success' => false,
@@ -1412,7 +1409,6 @@ class SalesController extends Controller
                 ], 403);
             }
 
-            // Get all transactions with this reference_id (for bill-out splits)
             $transactions = \App\Models\Transaction::where('reference_id', $referenceId)
                 ->where('is_voided', false)
                 ->get();
@@ -1423,113 +1419,99 @@ class SalesController extends Controller
                     'message' => 'Transaction not found or already voided'
                 ], 404);
             }
-            
-            // VALIDATION: Check if guest has already checked out
+
             $firstTransaction = $transactions->first();
             if ($firstTransaction->booking_id) {
                 $booking = \App\Models\Booking::where('BookingID', $firstTransaction->booking_id)->first();
-                
                 if ($booking && $booking->BookingStatus === 'Completed') {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Cannot void transactions for completed bookings. Guest has already checked out.',
-                        'details' => 'Booking Status: Completed'
+                        'message' => 'Cannot void transactions for completed bookings. Guest has already checked out.'
                     ], 400);
                 }
             }
-            
-            // VALIDATION: Check if this is a Bill Out Settlement - must void ALL or NONE
-            $isBillOutSettlement = $transactions->first()->purpose === 'Bill Out Settlement' || 
+
+            $isBillOutSettlement = $transactions->first()->purpose === 'Bill Out Settlement' ||
                                    str_starts_with($transactions->first()->purpose, 'Bill Out Settlement -');
-            
+
             if ($isBillOutSettlement) {
-                // Get ALL transactions for this reference (including already voided ones)
                 $allRelatedTransactions = \App\Models\Transaction::where('reference_id', $referenceId)->get();
                 $voidedCount = $allRelatedTransactions->where('is_voided', true)->count();
-                
-                // If some are already voided but not all, prevent partial voiding
+
                 if ($voidedCount > 0 && $voidedCount < $allRelatedTransactions->count()) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Cannot partially void Bill Out Settlement transactions.',
-                        'details' => 'Bill Out Settlement must be voided as a complete set. Some transactions are already voided.',
-                        'voided_count' => $voidedCount,
-                        'total_count' => $allRelatedTransactions->count()
+                        'message' => 'Cannot partially void Bill Out Settlement transactions.'
                     ], 400);
                 }
-                
-                // Show warning about voiding complete Bill Out Settlement
-                $transactionCount = $transactions->count();
-                $totalAmount = $transactions->sum('amount');
             }
 
-            // Get payment and booking info for proper reversal
             $payment = \App\Models\Payment::where('PaymentID', $referenceId)->first();
             $bookingId = $payment ? $payment->BookingID : $firstTransaction->booking_id;
-            
-            // Void all transactions as a set
+
             foreach ($transactions as $transaction) {
-                // Mark transaction as voided
                 $transaction->update([
-                    'is_voided' => true,
-                    'voided_at' => now(),
-                        'voided_by' => $adminUser->user_id,
+                    'is_voided'   => true,
+                    'voided_at'   => now(),
+                    'voided_by'   => $adminUser->user_id,
                     'void_reason' => $validated['reason'],
                 ]);
             }
-            
-            // Mark payment as voided (preserve payment history instead of deleting)
+
             if ($payment) {
                 $payment->update([
-                    'is_voided' => true,
-                    'voided_at' => now(),
-                    'voided_by' => $adminUser->user_id,
+                    'is_voided'   => true,
+                    'voided_at'   => now(),
+                    'voided_by'   => $adminUser->user_id,
                     'void_reason' => $validated['reason'],
                 ]);
             }
-            
-            // If this was a Bill Out Settlement, mark ALL rentals and unpaid items as unpaid
+
             if ($isBillOutSettlement && $bookingId) {
-                // Mark all rentals for this booking as unpaid
                 \App\Models\Rental::where('BookingID', $bookingId)
                     ->whereIn('status', ['Issued', 'Returned', 'Lost', 'Damaged'])
                     ->update(['is_paid' => false]);
-                
-                // Mark all unpaid items as unpaid again
+
                 \App\Models\UnpaidItem::where('BookingID', $bookingId)
                     ->update(['IsPaid' => false]);
-                
-                // IMPORTANT: Clear senior discount from booking
-                // Senior discount should only be applied during bill-out, not stored permanently
+
                 $booking = \App\Models\Booking::where('BookingID', $bookingId)->first();
                 if ($booking) {
                     $booking->update([
-                        'senior_discount' => 0,
-                        'actual_seniors_at_checkout' => 0
+                        'senior_discount'              => 0,
+                        'actual_seniors_at_checkout'   => 0
                     ]);
                 }
             }
-            
-            // Recalculate booking payment status if booking exists
+
             if ($bookingId) {
                 $this->recalculateBookingPaymentStatus($bookingId);
             }
 
             DB::commit();
-            
-            // Audit log: voided transaction(s)
+
+            // ── Record void in audit logs (this is the only part that was adjusted) ──
             try {
+                $description = 'Voided transaction reference ' . $referenceId .
+                               ' (reason: ' . ($validated['reason'] ?: 'not provided') . ') ' .
+                               'by user ' . ($adminUser->user_id ?? 'unknown') .
+                               ' role: ' . ($adminUser->role ?? 'unknown');
+
                 Audit_Log::create([
-                    'user_id' => $adminUser->user_id ?? Auth::user()->user_id ?? null,
-                    'action' => 'Void Transaction',
-                    'description' => 'Voided transaction reference ' . ($referenceId ?? 'n/a') . ' by admin ' . ($adminUser->user_id ?? 'n/a') . ' reason: ' . ($validated['reason'] ?? 'n/a'),
-                    'ip_address' => $request->ip(),
+                    'user_id'     => $adminUser->user_id ?? null,
+                    'action'      => 'Void Transaction',
+                    'description' => $description,
+                    'ip_address'  => $request->ip(),
                 ]);
             } catch (\Exception $e) {
-                // ignore logging failures
+                Log::warning('Could not create audit log for void transaction', [
+                    'reference_id' => $referenceId,
+                    'error'        => $e->getMessage()
+                ]);
+                // do not fail the whole operation
             }
+            // ───────────────────────────────────────────────────────────────────────
 
-            // Build success message
             $message = 'Transaction(s) voided successfully';
             if ($isBillOutSettlement) {
                 $transactionCount = $transactions->count();
@@ -1541,11 +1523,11 @@ class SalesController extends Controller
                 'success' => true,
                 'message' => $message,
                 'details' => [
-                    'voided_count' => $transactions->count(),
-                    'total_amount' => $transactions->sum('amount'),
-                    'booking_id' => $bookingId,
+                    'voided_count'          => $transactions->count(),
+                    'total_amount'          => $transactions->sum('amount'),
+                    'booking_id'            => $bookingId,
                     'rentals_marked_unpaid' => $isBillOutSettlement,
-                    'can_redo_payment' => true
+                    'can_redo_payment'      => true
                 ]
             ]);
 
@@ -1553,16 +1535,14 @@ class SalesController extends Controller
             DB::rollBack();
             Log::error('Error voiding transaction', [
                 'reference_id' => $referenceId,
-                'error' => $e->getMessage()
+                'error'        => $e->getMessage()
             ]);
-
             return response()->json([
                 'success' => false,
                 'message' => 'Error voiding transaction: ' . $e->getMessage()
             ], 500);
         }
     }
-
     /**
      * Recalculate booking payment status after payment deletion
      */

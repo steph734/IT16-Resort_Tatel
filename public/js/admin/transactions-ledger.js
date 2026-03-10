@@ -234,7 +234,6 @@ function applyClientSideFilters() {
     updateFilterCount();
 }
 
-
 // Update summary from filtered data
 function updateSummaryFromFiltered(transactions) {
     const summary = {
